@@ -8,8 +8,8 @@ public class MyFrame extends JFrame implements ActionListener{
 
     JButton button;
     MyFrame() {
-        button = new JButton();
-        button.setBounds(100, 100, 300, 300);
+        button = new JButton("TEST");
+        button.setBounds(100, 150, 300, 100);
         button.addActionListener(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
