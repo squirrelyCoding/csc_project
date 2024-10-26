@@ -9,7 +9,7 @@ import javax.swing.JTextArea;
 public class EmployeeProfilePanel extends JPanel {
     private JTextArea profileArea;
     private JButton editButton;
-
+    
     public EmployeeProfilePanel() {
         setLayout(new BorderLayout());
 
@@ -23,7 +23,7 @@ public class EmployeeProfilePanel extends JPanel {
         editButton.addActionListener(e -> editProfile());
 
         // Sample profile data
-        updateProfile("Sravani", 4, "Sravz@example.com", "Software Developer");
+        updateProfile("Sravani", 4, "sravz@example.com", "Software Developer");
     }
 
     private void updateProfile(String name, int id, String email, String position) {
