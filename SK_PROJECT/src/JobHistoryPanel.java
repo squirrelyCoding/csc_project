@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,30 +12,40 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+class JobHistory {
+    String company;
+    String position;
+    String responsibilities;
+
+    JobHistory(String company, String position, String responsibilities) {
+        this.company = company;
+        this.position = position;
+        this.responsibilities = responsibilities;
+    }
+
+    @Override
+    public String toString() {
+        return company + " - " + position;
+    }
+}
+
 public class JobHistoryPanel extends JPanel {
     private JTextField companyField, positionField;
     private JTextArea responsibilitiesArea;
-    private JButton saveButton, editButton;
-    private JList<String> jobHistoryList;
-    private DefaultListModel<String> listModel;
+    private JList<JobHistory> jobList;
+    private DefaultListModel<JobHistory> listModel;
+    private List<JobHistory> jobHistory;
 
     public JobHistoryPanel() {
         setLayout(new BorderLayout());
+        jobHistory = new ArrayList<>();
 
-        // Create input fields
         companyField = new JTextField(20);
         positionField = new JTextField(20);
         responsibilitiesArea = new JTextArea(5, 20);
-
-        // Create buttons
-        saveButton = new JButton("Save Job History");
-        editButton = new JButton("Edit Job History");
-
-        // Create job history list
         listModel = new DefaultListModel<>();
-        jobHistoryList = new JList<>(listModel);
+        jobList = new JList<>(listModel);
 
-        // Layout
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
         inputPanel.add(new JLabel("Company:"));
         inputPanel.add(companyField);
@@ -42,43 +54,56 @@ public class JobHistoryPanel extends JPanel {
         inputPanel.add(new JLabel("Responsibilities:"));
         inputPanel.add(new JScrollPane(responsibilitiesArea));
 
+        JButton saveButton = new JButton("Save Job History");
+        saveButton.addActionListener(e -> saveJobHistory());
+
+        JButton editButton = new JButton("Edit Job History");
+        editButton.addActionListener(e -> editJobHistory());
+
+        JButton viewButton = new JButton("View Job History");
+        viewButton.addActionListener(e -> viewJobHistory());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(saveButton);
         buttonPanel.add(editButton);
+        buttonPanel.add(viewButton);
 
         add(inputPanel, BorderLayout.NORTH);
-        add(new JScrollPane(jobHistoryList), BorderLayout.CENTER);
+        add(new JScrollPane(jobList), BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-
-        // Add action listeners
-        saveButton.addActionListener(e -> saveJobHistory());
-        editButton.addActionListener(e -> editJobHistory());
     }
 
     private void saveJobHistory() {
-        // Error checking for required fields
-        if (companyField.getText().isEmpty() || positionField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Company and Position are required fields.");
-            return;
-        }
-
-        String jobEntry = companyField.getText() + " - " + positionField.getText();
-        listModel.addElement(jobEntry);
-
-        // Clear fields after saving
-        companyField.setText("");
-        positionField.setText("");
-        responsibilitiesArea.setText("");
+        JobHistory job = new JobHistory(companyField.getText(), positionField.getText(), responsibilitiesArea.getText());
+        jobHistory.add(job);
+        listModel.addElement(job);
+        clearFields();
     }
 
     private void editJobHistory() {
-        int selectedIndex = jobHistoryList.getSelectedIndex();
+        int selectedIndex = jobList.getSelectedIndex();
         if (selectedIndex != -1) {
-            String selectedJob = listModel.getElementAt(selectedIndex);
-            String[] parts = selectedJob.split(" - ");
-            companyField.setText(parts[0]);
-            positionField.setText(parts[1]);
-            // You would need to store and retrieve responsibilities separately
+            JobHistory job = jobHistory.get(selectedIndex);
+            companyField.setText(job.company);
+            positionField.setText(job.position);
+            responsibilitiesArea.setText(job.responsibilities);
+            jobHistory.remove(selectedIndex);
+            listModel.remove(selectedIndex);
         }
+    }
+
+    private void viewJobHistory() {
+        StringBuilder sb = new StringBuilder();
+        for (JobHistory job : jobHistory) {
+            sb.append(job.toString()).append("\n");
+            sb.append("Responsibilities: ").append(job.responsibilities).append("\n\n");
+        }
+        JOptionPane.showMessageDialog(this, sb.toString(), "Job History", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void clearFields() {
+        companyField.setText("");
+        positionField.setText("");
+        responsibilitiesArea.setText("");
     }
 }
