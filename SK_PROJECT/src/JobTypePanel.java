@@ -35,19 +35,16 @@ public class JobTypePanel extends JPanel {
         inputPanel.add(softSkillField);
 
         JButton addButton = new JButton("Add Skill");
-        
         addButton.setOpaque(true);
         addButton.setBorderPainted(false);
         addButton.addActionListener(e -> addSoftSkill());
 
         JButton deleteButton = new JButton("Delete Skill");
-       
         deleteButton.setOpaque(true);
         deleteButton.setBorderPainted(false);
         deleteButton.addActionListener(e -> deleteSoftSkill());
 
         JButton saveButton = new JButton("Save Job Type");
-        
         saveButton.setOpaque(true);
         saveButton.setBorderPainted(false);
         saveButton.addActionListener(e -> saveJobType());

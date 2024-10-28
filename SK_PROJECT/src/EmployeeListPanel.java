@@ -37,13 +37,10 @@ public class EmployeeListPanel extends JPanel {
         setLayout(new BorderLayout());
         employees = new ArrayList<>();
         // Add some sample employees
-        employees.add(new Employee("Aspen", 1));
-        employees.add(new Employee("Jackson", 2));
+        employees.add(new Employee("Sravani", 1));
+        employees.add(new Employee("Aspen", 2));
         employees.add(new Employee("Tristian", 3));
-        employees.add(new Employee("Sravani", 4));
-        
-
-    
+        employees.add(new Employee("Jackson", 4));
 
         listModel = new DefaultListModel<>();
         for (Employee emp : employees) {
