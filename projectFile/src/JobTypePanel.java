@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
