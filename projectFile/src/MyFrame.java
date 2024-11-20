@@ -62,6 +62,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(skillsField);
         this.add(saveButton);
         this.add(editButton);
+        this.add(demField);
         this.add(demButton);
         this.add(demSave);
         this.add(demEdit);
