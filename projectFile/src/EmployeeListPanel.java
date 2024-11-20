@@ -31,6 +31,7 @@ public class EmployeeListPanel extends JPanel {
     private JList<Employee> employeeList;
     private JTextField searchField;
     private JButton sortButton;
+    private JButton clearButton;
 
     public EmployeeListPanel() {
         setLayout(new BorderLayout());
@@ -57,9 +58,13 @@ public class EmployeeListPanel extends JPanel {
         sortButton = new JButton("Sort Alphabetically");
         sortButton.addActionListener(e -> sortEmployees());
 
+        clearButton = new JButton("Clear Search");
+        clearButton.addActionListener(e -> clearSearch());
+
         JPanel topPanel = new JPanel();
         topPanel.add(new JLabel("Search:"));
         topPanel.add(searchField);
+        topPanel.add(clearButton);
         topPanel.add(sortButton);
 
         add(topPanel, BorderLayout.NORTH);
@@ -78,6 +83,15 @@ public class EmployeeListPanel extends JPanel {
 
     private void sortEmployees() {
         employees.sort(Comparator.comparing(e -> e.name));
+        updateListModel();
+    }
+
+    private void clearSearch() {
+        searchField.setText("");
+        updateListModel();
+    }
+
+    private void updateListModel() {
         listModel.clear();
         for (Employee emp : employees) {
             listModel.addElement(emp);

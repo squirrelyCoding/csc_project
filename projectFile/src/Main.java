@@ -11,9 +11,9 @@ public class Main {
 
             JTabbedPane tabbedPane = new JTabbedPane();
             tabbedPane.addTab("Employee List", new EmployeeListPanel());
+            tabbedPane.addTab("Employee Profile", new EmployeeProfilePanel());
             tabbedPane.addTab("Job History", new JobHistoryPanel());
             tabbedPane.addTab("Job Types", new JobTypePanel());
-            tabbedPane.addTab("Employee Profile", new EmployeeProfilePanel());
 
             frame.add(tabbedPane);
             frame.setVisible(true);

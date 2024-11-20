@@ -49,10 +49,22 @@ public class JobTypePanel extends JPanel {
         saveButton.setBorderPainted(false);
         saveButton.addActionListener(e -> saveJobType());
 
+        JButton viewButton = new JButton("View Job Type");
+        viewButton.setOpaque(true);
+        viewButton.setBorderPainted(false);
+        viewButton.addActionListener(e -> viewJobType());
+        
+        JButton editButton = new JButton("Edit Skill");
+        editButton.setOpaque(true);
+        editButton.setBorderPainted(false);
+        editButton.addActionListener(e -> editSoftSkill());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(editButton);
         buttonPanel.add(saveButton);
+        buttonPanel.add(viewButton);
 
         add(inputPanel, BorderLayout.NORTH);
         add(new JScrollPane(softSkillsList), BorderLayout.CENTER);
@@ -78,8 +90,44 @@ public class JobTypePanel extends JPanel {
         }
     }
 
+    private void editSoftSkill() {
+        int selectedIndex = softSkillsList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String currentSkill = listModel.getElementAt(selectedIndex);
+            String newSkill = JOptionPane.showInputDialog(this, "Edit Soft Skill:", currentSkill);
+            if (newSkill != null && !newSkill.trim().isEmpty()) {
+                softSkills.remove(currentSkill);
+                softSkills.add(newSkill.trim());
+                listModel.setElementAt(newSkill.trim(), selectedIndex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a skill to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
     private void saveJobType() {
         // Logic to save job type with soft skills
         JOptionPane.showMessageDialog(this, "Job Type saved with " + softSkills.size() + " soft skills.");
+    }
+
+    private void viewJobType() {
+        if (jobTitleField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a job title.", "No Job Title", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Job Title: ").append(jobTitleField.getText()).append("\n\n");
+        sb.append("Soft Skills:\n");
+        
+        if (softSkills.isEmpty()) {
+            sb.append("No soft skills added.");
+        } else {
+            for (String skill : softSkills) {
+                sb.append("- ").append(skill).append("\n");
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, sb.toString(), "Job Type Details", JOptionPane.INFORMATION_MESSAGE);
     }
 }
