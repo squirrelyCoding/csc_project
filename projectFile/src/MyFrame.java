@@ -12,6 +12,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private JTextField nameField, dateHiredField, skillsField, demField;
     private JButton saveButton, editButton, demButton, demSave, demEdit;
     private newMember currentEmployee;
+
     MyFrame() {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
