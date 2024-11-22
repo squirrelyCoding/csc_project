@@ -9,38 +9,50 @@ import javax.swing.JOptionPane;
 
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
 
-    
-    private JTextField nameField, dateHiredField, skillsField;
-    private JButton saveButton, editButton;
-    //private newMember currentEmployee;
+    private JTextField nameField, dateHiredField, skillsField, demField;
+    private JButton saveButton, editButton, demButton, demSave, demEdit;
+    private newMember currentEmployee;
+
     MyFrame() {
-        
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        // Sets the JFrame so that the window will, by default, close when the x is clicked in the top right corner
-        this.setLayout(null);           // Set's the layout of the JFrame as "null" (or none) since I'm not sure which layout we want to use yet (We can discuss this at one of our meetings on an upcoming Thursday)
-        this.setSize(500,600);      // Set's the JFrame's default size. This is very changable, but I thought this is a moderate size for a small app that's easy to use.
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setSize(500,600);
 
         this.getContentPane().setBackground(new Color(200, 111, 247));
 
-
+        // Create textFields
         nameField = new JTextField(20);
         dateHiredField = new JTextField(20);
         skillsField = new JTextField(20);
+        demField = new JTextField(30);
 
         // Create buttons
         saveButton = new JButton("Save Employee");
         editButton = new JButton("Edit Employee");
+        demButton = new JButton("Demographics");
+        demSave = new JButton("Save Demographics");
+        demEdit = new JButton("Edit Demographics");
 
         // Set bounds for components
         nameField.setBounds(150, 50, 200, 30);
         dateHiredField.setBounds(150, 100, 200, 30);
         skillsField.setBounds(150, 150, 200, 30);
+        demField.setBounds (150, 50, 200, 130);
         
         saveButton.setBounds(150, 200, 200, 30);
         editButton.setBounds(150, 250, 200, 30);
+        demButton.setBounds(150, 300, 200, 30);
+        demSave.setBounds(150, 200, 200, 30);
+        demEdit.setBounds(150, 200, 200, 30);
 
         // Add action listeners
         saveButton.addActionListener(this);
         editButton.addActionListener(this);
+        demButton.addActionListener(this);
+        demSave.addActionListener(this);
+        demEdit.addActionListener(this);
+        demField.setEditable(false);
 
         // Add components to frame
         this.add(new JLabel("Name:")).setBounds(50, 50, 100, 30);
@@ -51,9 +63,15 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(skillsField);
         this.add(saveButton);
         this.add(editButton);
-        
+        this.add(demField);
+        this.add(demButton);
+        this.add(demSave);
+        this.add(demEdit);
 
-        this.setVisible(true); // Set's the JFrame and all variables listed above as Visible upon startup.
+        this.setVisible(true);
+        demField.setVisible(false);
+        demSave.setVisible(false);
+        demEdit.setVisible(false);
     }
     @Override
     public void actionPerformed(ActionEvent e){
@@ -62,8 +80,31 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             saveEmployee();
         } else if (e.getSource() == editButton) {
             editEmployee();
-        }
+        } else if (e.getSource() == demButton || e.getSource() == demSave || e.getSource() == demEdit) {
 
+            saveButton.setVisible(false);
+            editButton.setVisible(false);
+            demButton.setVisible(false);
+            nameField.setVisible(false);
+            dateHiredField.setVisible(false);
+            skillsField.setVisible(false);
+
+            if (e.getSource() == demButton && demField.equals("")) {
+                JOptionPane.showMessageDialog(this, "Employee has no Demographic Data, please enter something to continue.", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                demField.setVisible(true);
+                demField.setEditable(true);
+                demSave.setVisible(true);
+            } else if (e.getSource() == demButton || e.getSource() == demSave) {
+                demField.setEditable(false);
+                demSave.setVisible(false);
+                demField.setVisible(true);
+                demEdit.setVisible(true);
+            } else if (e.getSource() == demEdit) {
+                demEdit.setVisible(false);
+                demField.setEditable(true);
+                demSave.setVisible(true);
+            }
+        }
     }
 
         private void saveEmployee() {
