@@ -21,7 +21,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.setLayout(null);
         this.setSize(500,600);
 
-        this.getContentPane().setBackground(new Color(200, 111, 247));
+        this.getContentPane().setBackground(new Color(123, 164, 176));
 
         // Create textFields
         nameField = new JTextField(20);

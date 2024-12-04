@@ -2,5 +2,7 @@
     "java.project.sourcePaths": [
         "projectFile\\src"
     ],
-    "java.project.referencedLibraries": []
+    "java.project.referencedLibraries": [
+        "projectFile\\lib\\sqlite-jdbc-3.47.0.0.jar"
+    ]
 }
