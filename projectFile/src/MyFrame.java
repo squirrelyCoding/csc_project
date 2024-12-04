@@ -104,6 +104,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         } else if (e.getSource() == editButton) {
             editEmployee();
         } else if (e.getSource() == demButton || e.getSource() == demSave || e.getSource() == demEdit) { //Demographics section
+            new EmployeeManagementSystem.main();
 
             saveButton.setVisible(false);
             editButton.setVisible(false);
