@@ -38,7 +38,7 @@ public class EmployeeListPanel extends JPanel {
         // Add some sample employees
         employees.add(new Employee("Sravani", 1));
         employees.add(new Employee("Abbie", 2));
-        employees.add(new Employee("Tristian", 3));
+        employees.add(new Employee("Tristan", 3));
         employees.add(new Employee("Jackson", 4));
 
         listModel = new DefaultListModel<>();
