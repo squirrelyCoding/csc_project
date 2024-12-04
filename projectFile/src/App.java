@@ -70,26 +70,41 @@ public class App {
         return answer;
     }
     public static void saveEmployee(String name, String dateHired, String skills) throws SQLException {
-        int IssueID = 0;
         boolean taken = false;
         String queryStr = "SELECT * FROM employees";
+        String rowCount = "SELECT COUNT(*) FROM employees";
         String jdbcUrl = "jdbc:sqlite:Employees.db";
         Connection conn = DriverManager.getConnection(jdbcUrl);
         Statement statement = conn.createStatement();
-        ResultSet Result;
+        ResultSet Result = statement.executeQuery(rowCount);
         Random rand = new Random();
-        IssueID = 1 + rand.nextInt(9999);
-        while(taken) {
-            IssueID = 1 + rand.nextInt(9999);
+        int IssueID = 1 + rand.nextInt(10);
+        Result.next();
+        if (!(Result.getInt(1) >= 10)) {
             Result = statement.executeQuery(queryStr);
-            taken = false;
             while (Result.next()) {
-                if (Result.getInt("id") == IssueID) {
-                    taken = true;
+                while (Result.getInt("id") == IssueID) {
+                    IssueID = 1 + rand.nextInt(10);
+                    Result = statement.executeQuery(queryStr);
                 }
             }
+            statement.executeUpdate("INSERT INTO employees(id, name, age) VALUES(" + IssueID + ", '" + name + "', " + (19 + rand.nextInt(42)) + ");");
+        } else {
+            System.out.println("DB Full");
         }
-        statement.executeUpdate("INSERT INTO employees(id, name, age) VALUES(" + IssueID + ", '" + name + "', " + (19 + rand.nextInt(42)) + ");");
+    }
+    public static void editEmployee(int ID, String Name, int Age) throws SQLException {
+        String jdbcUrl = "jdbc:sqlite:Employees.db";
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement statement = conn.createStatement();
+        statement.executeUpdate("UPDATE employees SET name=" + Name + " WHERE id=" + ID);
+        statement.executeUpdate("UPDATE employees SET age=" + Age + " WHERE id=" + ID);
+    }
+    public static void deleteEmployee(int ID) throws SQLException {
+        String jdbcUrl = "jdbc:sqlite:Employees.db";
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement statement = conn.createStatement();
+        statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
     }
     public static void main(String[] args) throws Exception {
         new MyFrame();
