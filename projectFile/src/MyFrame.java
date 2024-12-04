@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
@@ -8,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
-
+    private String Depth = "Home";
     private JTextField nameField, dateHiredField, skillsField, demField;
     private JButton saveButton, editButton, demButton, demSave, demEdit;
     private newMember currentEmployee;
@@ -60,6 +62,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(dateHiredField);
         this.add(new JLabel("Skills:")).setBounds(50, 150, 100, 30);
         this.add(skillsField);
+        this.add(demField);
         this.add(saveButton);
         this.add(editButton);
         this.add(demField);
@@ -72,14 +75,34 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         demSave.setVisible(false);
         demEdit.setVisible(false);
     }
+    public String getDepth() {
+        return Depth;
+    }
+    public void setDepth(String Depth) {
+        this.Depth = Depth;
+    }
     @Override
     public void actionPerformed(ActionEvent e){
-        
+        String Layer = getDepth();
+        String temp = "";
         if (e.getSource() == saveButton) {
-            saveEmployee();
+            if (!nameField.getText().equals("") && !dateHiredField.getText().equals("") && !skillsField.getText().equals("")) {
+                try {
+                    //Saves data to the Database
+                    App.saveEmployee(nameField.getText(), dateHiredField.getText(), skillsField.getText());
+                    JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+
+                    //clears the fields
+                    nameField.setText("");
+                    dateHiredField.setText("");
+                    skillsField.setText("");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
         } else if (e.getSource() == editButton) {
             editEmployee();
-        } else if (e.getSource() == demButton || e.getSource() == demSave || e.getSource() == demEdit) {
+        } else if (e.getSource() == demButton || e.getSource() == demSave || e.getSource() == demEdit) { //Demographics section
 
             saveButton.setVisible(false);
             editButton.setVisible(false);
@@ -88,36 +111,23 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             dateHiredField.setVisible(false);
             skillsField.setVisible(false);
 
-            if (e.getSource() == demButton && demField.equals("")) {
+            temp = demField.getText();
+            if (e.getSource() == demButton && temp.equals("")) { //First Open
                 JOptionPane.showMessageDialog(this, "Employee has no Demographic Data, please enter something to continue.", "ERROR", JOptionPane.INFORMATION_MESSAGE);
                 demField.setVisible(true);
                 demField.setEditable(true);
                 demSave.setVisible(true);
-            } else if (e.getSource() == demButton || e.getSource() == demSave) {
+            } else if (e.getSource() == demButton || e.getSource() == demSave) { //nth Open
                 demField.setEditable(false);
                 demSave.setVisible(false);
                 demField.setVisible(true);
                 demEdit.setVisible(true);
-            } else if (e.getSource() == demEdit) {
+            } else if (e.getSource() == demEdit) { //Edit Demographics
                 demEdit.setVisible(false);
                 demField.setEditable(true);
                 demSave.setVisible(true);
             }
         }
-    }
-
-        private void saveEmployee() {
-        /* String name = nameField.getText();
-        String dateHired = dateHiredField.getText();
-        String skills = skillsField.getText(); */
-
-        //placeholder until we get a database set up for saved data
-         JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-
-         //clears the fields
-        nameField.setText("");
-        dateHiredField.setText("");
-        skillsField.setText("");
     }
 
     private void editEmployee() {
