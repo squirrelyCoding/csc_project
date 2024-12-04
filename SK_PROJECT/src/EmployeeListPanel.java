@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,7 +37,7 @@ public class EmployeeListPanel extends JPanel {
         employees = new ArrayList<>();
         // Add some sample employees
         employees.add(new Employee("Sravani", 1));
-        employees.add(new Employee("Aspen", 2));
+        employees.add(new Employee("Abbie", 2));
         employees.add(new Employee("Tristian", 3));
         employees.add(new Employee("Jackson", 4));
 

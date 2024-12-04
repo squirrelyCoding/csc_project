@@ -17,6 +17,7 @@ public class JobTypePanel extends JPanel {
     private JList<String> softSkillsList;
     private DefaultListModel<String> listModel;
     private Set<String> softSkills;
+    private String currentJobTitle; // Corrected variable name
 
     public JobTypePanel() {
         setLayout(new BorderLayout());
@@ -49,10 +50,22 @@ public class JobTypePanel extends JPanel {
         saveButton.setBorderPainted(false);
         saveButton.addActionListener(e -> saveJobType());
 
+        JButton viewButton = new JButton("View Job Type");
+        viewButton.setOpaque(true);
+        viewButton.setBorderPainted(false);
+        viewButton.addActionListener(e -> viewJobType());
+
+        JButton editButton = new JButton("Edit Job Type");
+        editButton.setOpaque(true);
+        editButton.setBorderPainted(false);
+        editButton.addActionListener(e -> editJobType());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(saveButton);
+        buttonPanel.add(viewButton);
+        buttonPanel.add(editButton);
 
         add(inputPanel, BorderLayout.NORTH);
         add(new JScrollPane(softSkillsList), BorderLayout.CENTER);
@@ -78,8 +91,41 @@ public class JobTypePanel extends JPanel {
         }
     }
 
+    private void viewJobType() {
+        if (currentJobTitle == null || currentJobTitle.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No job type currently loaded.", "View Job Type", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Job Title: ").append(currentJobTitle).append("\n\n");
+        sb.append("Soft Skills:\n");
+        
+        for (String skill : softSkills) {
+            sb.append("- ").append(skill).append("\n");
+        }
+        
+        JOptionPane.showMessageDialog(this, sb.toString(), "View Job Type", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void editJobType() {
+        String newJobTitle = JOptionPane.showInputDialog(this, "Enter new job title:", currentJobTitle);
+        
+        if (newJobTitle != null && !newJobTitle.trim().isEmpty()) {
+            currentJobTitle = newJobTitle.trim();
+            jobTitleField.setText(currentJobTitle);
+            JOptionPane.showMessageDialog(this, "Job title updated successfully!", "Edit Job Type", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
     private void saveJobType() {
-        // Logic to save job type with soft skills
-        JOptionPane.showMessageDialog(this, "Job Type saved with " + softSkills.size() + " soft skills.");
+        currentJobTitle = jobTitleField.getText().trim();
+        
+        if (currentJobTitle.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a job title.", "Save Job Type", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(this, "Job Type '" + currentJobTitle + "' saved with " + softSkills.size() + " soft skills.");
     }
 }
