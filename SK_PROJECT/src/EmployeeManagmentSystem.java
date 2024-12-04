@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-public class Main {
+public class EmployeeManagmentSystem {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Employee Management System");
