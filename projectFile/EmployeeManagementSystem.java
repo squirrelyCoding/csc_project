@@ -14,7 +14,6 @@ public class EmployeeManagementSystem {
             tabbedPane.addTab("Job History", new JobHistoryPanel());
             tabbedPane.addTab("Job Types", new JobTypePanel());
             tabbedPane.addTab("Employee Profile", new EmployeeProfilePanel());
-
             frame.add(tabbedPane);
             frame.setVisible(true);
         });
