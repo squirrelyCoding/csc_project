@@ -21,7 +21,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        this.getContentPane().setBackground(new Color(200, 111, 247));
+        this.getContentPane().setBackground(new Color(123, 164, 176));
 
         // Create labels
         label1 = new JLabel("First Name:");
