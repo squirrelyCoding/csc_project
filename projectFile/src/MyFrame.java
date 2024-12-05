@@ -8,10 +8,12 @@ import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
 
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
     private String Depth = "Home";
-    private JTextField nameField, dateHiredField, skillsField, demField;
+    private JTextField nameField, ageField, dateHiredField, demField, phoneField, emailField;
+    private JComboBox<String> skillsField;
     private JButton saveButton, editButton, demButton, demSave, demEdit;
     private newMember currentEmployee;
 
@@ -25,9 +27,15 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
         // Create textFields
         nameField = new JTextField(20);
+        ageField = new JTextField(20);
         dateHiredField = new JTextField(20);
-        skillsField = new JTextField(20);
         demField = new JTextField(30);
+        phoneField = new JTextField(20);
+        emailField = new JTextField(20);
+
+        // Create dropdown for skills
+        String[] skillsOptions = {"Java", "Python", "C++", "JavaScript"};
+        skillsField = new JComboBox<>(skillsOptions);
 
         // Create buttons
         saveButton = new JButton("Save Employee");
@@ -38,15 +46,16 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
         // Set bounds for components
         nameField.setBounds(150, 50, 200, 30);
-        dateHiredField.setBounds(150, 100, 200, 30);
-        skillsField.setBounds(150, 150, 200, 30);
-        demField.setBounds (150, 50, 200, 130);
+        ageField.setBounds(150, 100, 50, 30); // Corrected bounds for ageField
+        dateHiredField.setBounds(150, 150, 200, 30);
+        skillsField.setBounds(150, 200, 200, 30);
+        demField.setBounds(150, 250, 200, 130);
         
-        saveButton.setBounds(150, 200, 200, 30);
-        editButton.setBounds(150, 250, 200, 30);
-        demButton.setBounds(150, 300, 200, 30);
-        demSave.setBounds(150, 200, 200, 30);
-        demEdit.setBounds(150, 200, 200, 30);
+        saveButton.setBounds(150, 300, 200, 30);
+        editButton.setBounds(150, 350, 200, 30);
+        demButton.setBounds(150, 400, 200, 30);
+        demSave.setBounds(150, 450, 200, 30);
+        demEdit.setBounds(150, 500, 200, 30);
 
         // Add action listeners
         saveButton.addActionListener(this);
@@ -59,9 +68,11 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         // Add components to frame
         this.add(new JLabel("Name:")).setBounds(50, 50, 100, 30);
         this.add(nameField);
-        this.add(new JLabel("Date Hired:")).setBounds(50, 100, 100, 30);
+        this.add(new JLabel("Age:")).setBounds(50, 100, 100, 30); // Added label for ageField
+        this.add(ageField); // Added ageField to the frame
+        this.add(new JLabel("Date Hired:")).setBounds(50, 150, 100, 30);
         this.add(dateHiredField);
-        this.add(new JLabel("Skills:")).setBounds(50, 150, 100, 30);
+        this.add(new JLabel("Skills:")).setBounds(50, 200, 100, 30);
         this.add(skillsField);
         this.add(demField);
         this.add(saveButton);
@@ -87,16 +98,16 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         String Layer = getDepth();
         String temp = "";
         if (e.getSource() == saveButton) {
-            if (!nameField.getText().equals("") && !dateHiredField.getText().equals("") && !skillsField.getText().equals("")) {
+            if (!nameField.getText().equals("") && !dateHiredField.getText().equals("") && skillsField.getSelectedItem() != null) {
                 try {
                     //Saves data to the Database
-                    App.saveEmployee(nameField.getText(), dateHiredField.getText(), skillsField.getText());
+                    App.saveEmployee(nameField.getText(), dateHiredField.getText(), (String) skillsField.getSelectedItem());
                     JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
                     //clears the fields
                     nameField.setText("");
                     dateHiredField.setText("");
-                    skillsField.setText("");
+                    skillsField.setSelectedIndex(0);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -109,6 +120,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             editButton.setVisible(false);
             demButton.setVisible(false);
             nameField.setVisible(false);
+            ageField.setVisible(false);
             dateHiredField.setVisible(false);
             skillsField.setVisible(false);
 
