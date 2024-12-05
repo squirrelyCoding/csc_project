@@ -9,7 +9,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
     private JTextArea infoDisplay;
     private JTextField enterField1, enterField2, enterField3, enterField4,enterField5, enterField6, enterField7, enterField8, enterField9, enterField10, enterField11, enterField12;
-    private JButton saveButton, viewButton, editButton, delButton, backButton;
+    private JTextField nameField, ageField, dateHiredField, demField, phoneField, emailField;
+    private JComboBox<String> skillsBox;
+    private JButton saveButton, viewButton, editButton, delButton, backButton, demButton, demSave, demEdit;
     private JScrollPane scroll;
     private newMember currentEmployee;
 
@@ -42,6 +44,12 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         scroll = new JScrollPane(infoDisplay);
 
         // Create textFields
+        nameField = new JTextField(20);
+        ageField = new JTextField(20);
+        dateHiredField = new JTextField(20);
+        demField = new JTextField(30);
+        phoneField = new JTextField(20);
+        emailField = new JTextField(20);
         enterField1 = new JTextField();
         enterField2 = new JTextField();
         enterField3 = new JTextField();
@@ -55,6 +63,10 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         enterField11 = new JTextField();
         enterField12 = new JTextField();
 
+        // Create dropdown for skills
+        String[] skillsOptions = {"Java", "Python", "C++", "JavaScript"};
+        skillsBox = new JComboBox<>(skillsOptions);
+
         // Create buttons
         saveButton = new JButton("Save");
         viewButton = new JButton("View");
@@ -62,12 +74,23 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         delButton = new JButton("Delete");
         backButton = new JButton("Back");
 
-        // Set bounds for start-up components
+        // Set bounds for components
+        nameField.setBounds(150, 50, 200, 30);
+        ageField.setBounds(150, 100, 50, 30); // Corrected bounds for ageField
+        dateHiredField.setBounds(150, 150, 200, 30);
+        skillsBox.setBounds(150, 200, 200, 30);
+        demField.setBounds(150, 250, 200, 130);
+        
         saveButton.setBounds(140, 400, 200, 30);
+        editButton.setBounds(150, 350, 200, 30);
         viewButton.setBounds(140, 450, 200, 30);
+        demButton.setBounds(150, 300, 200, 30);
+        demSave.setBounds(150, 200, 200, 30);
+        demEdit.setBounds(150, 200, 200, 30);
 
-        // Add action options
         infoDisplay.setEditable(false);
+
+        // Add action listeners
         saveButton.addActionListener(this);
         viewButton.addActionListener(this);
         editButton.addActionListener(this);
@@ -75,6 +98,28 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         backButton.addActionListener(this);
 
         // Add components to frame
+        this.add(new JLabel("Name:")).setBounds(50, 50, 100, 30);
+        this.add(nameField);
+        this.add(new JLabel("Age:")).setBounds(50, 100, 100, 30); // Added label for ageField
+        this.add(ageField); // Added ageField to the frame
+        this.add(new JLabel("Date Hired:")).setBounds(50, 100, 100, 30);
+        this.add(dateHiredField);
+        this.add(new JLabel("Skills:")).setBounds(50, 150, 100, 30);
+        this.add(skillsBox);
+        this.add(demField);
+        this.add(enterField1);
+        this.add(enterField2);
+        this.add(enterField3);
+        this.add(enterField4);
+        this.add(enterField5);
+        this.add(enterField6);
+        this.add(enterField7);
+        this.add(enterField8);
+        this.add(enterField9);
+        this.add(enterField10);
+        this.add(enterField11);
+        this.add(enterField12);
+
         this.add(label1);
         this.add(label2);
         this.add(label3);
@@ -90,22 +135,12 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
         this.add(scroll);
 
-        this.add(enterField1);
-        this.add(enterField2);
-        this.add(enterField3);
-        this.add(enterField4);
-        this.add(enterField5);
-        this.add(enterField6);
-        this.add(enterField7);
-        this.add(enterField8);
-        this.add(enterField9);
-        this.add(enterField10);
-        this.add(enterField11);
-        this.add(enterField12);
-
         this.add(saveButton);
         this.add(viewButton);
         this.add(editButton);
+        this.add(demButton);
+        this.add(demSave);
+        this.add(demEdit);
         this.add(delButton);
         this.add(backButton);
 
