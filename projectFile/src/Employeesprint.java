@@ -44,6 +44,7 @@ public class Employeesprint extends employee implements supervisor
     ok this my updated code /and below is v 2.0 
 */
 
+
 public class Employeesprint { 
 
     private String memberinfo; 
@@ -94,6 +95,7 @@ public class Employeesprint {
      
     }
    
+
     public void addFeedback(int size) 
      { 
         feedback = new String[size]; 
@@ -116,7 +118,6 @@ public class Employeesprint {
     } 
      public void viewData() 
      { 
-     
         System.out.println("Feedback:\n" + getFeedback()); 
      }  
      public static void main(String[] args) 
