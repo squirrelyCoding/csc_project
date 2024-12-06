@@ -107,7 +107,7 @@ public class App {
         statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
     }
     public static void main(String[] args) throws Exception {
-       // new MyFrame();
+        new MyFrame();
         new TitleFrame();
     }
 }
