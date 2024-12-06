@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
 
-    private String Depth = "Home";
+    private String Depth = "EmpOptions";
     private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
     private JTextArea infoDisplay;
     private JTextField enterField1, enterField2, enterField3, enterField4, enterField5, enterField6;
     private JComboBox<String> hardBox1, hardBox2, hardBox3, softBox1, softBox2, softBox3;
-    private JButton saveButton, viewButton, editButton, delButton, backButton;
+    private JButton saveButton, viewButton, editButton, delButton, backButton, searchButton, saveEmpButton, viewEmpButton;
     private JScrollPane scroll;
     private newMember currentEmployee;
 
@@ -67,12 +67,16 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         editButton = new JButton("Edit");
         delButton = new JButton("Delete");
         backButton = new JButton("Back");
+        searchButton = new JButton("Search");
+        saveEmpButton = new JButton("Add An Employee");
+        viewEmpButton = new JButton("View Employees");
 
         // Set bounds for components
-        saveButton.setBounds(140, 400, 200, 30);
-        viewButton.setBounds(140, 450, 200, 30);
+        saveEmpButton.setBounds(140, 400, 200, 30);
+        viewEmpButton.setBounds(140, 450, 200, 30);
 
         infoDisplay.setEditable(false);
+        infoDisplay.setLineWrap(true);
 
         // Add action listeners
         saveButton.addActionListener(this);
@@ -80,6 +84,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         editButton.addActionListener(this);
         delButton.addActionListener(this);
         backButton.addActionListener(this);
+        searchButton.addActionListener(this);
+        saveEmpButton.addActionListener(this);
+        viewEmpButton.addActionListener(this);
 
         // Add components to frame
         this.add(enterField1);
@@ -116,6 +123,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(editButton);
         this.add(delButton);
         this.add(backButton);
+        this.add(saveEmpButton);
+        this.add(viewEmpButton);
 
         // Setting the frame to visible while setting all non-startup variables to false
         this.setVisible(true);
@@ -157,6 +166,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             editButton.setVisible(false);
             delButton.setVisible(false);
             backButton.setVisible(false);
+            saveButton.setVisible(false);
+            viewButton.setVisible(false);
 
             // temps
             // saveButton.setVisible(false);
@@ -175,69 +186,79 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         String tempStr = "";
         String ErrorMSG = "";
         // 1st Level layer
-        if (e.getSource() == saveButton && Layer.equals("Home")) {
+        if (e.getSource() == saveEmpButton && Layer.equals("EmpOptions")) {
             setDepth("AddEmp");
-        } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
-            //Verification Process
-            if ((enterField1.getText().equals("") || enterField2.getText().equals("") || enterField3.getText().equals("")
-            || enterField4.getText().equals("") || enterField5.getText().equals("") || enterField6.getText().equals("")
-            || hardBox1.getSelectedItem().equals("--"))) {
-                ErrorMSG = "Data entry missing somewhere!";
-            } else {
-                if (!(ver.Verify(enterField1.getText(), "Name"))) {
-                    ErrorMSG = ErrorMSG + "| First Name is not Valid |\n";
-                }
-                if (!(ver.Verify(enterField2.getText(), "Name"))) {
-                    ErrorMSG = ErrorMSG + "| Last Name is not Valid |\n";
-                }
-                if (!(ver.Verify(enterField3.getText(), "Age"))) {
-                    ErrorMSG = ErrorMSG + "| Age is not Valid |\n";
-                }
-                if (!(ver.Verify(enterField4.getText(), "Email"))) {
-                    ErrorMSG = ErrorMSG + "| Email is not Valid |\n";
-                }
-                if (!(ver.Verify(enterField5.getText(), "Number"))) {
-                    ErrorMSG = ErrorMSG + "| Phone Number is not Valid |\n";
-                }
-                if (!(ver.Verify(enterField6.getText(), "Date"))) {
-                    ErrorMSG = ErrorMSG + "| Date hired is not Valid |\n";
-                }
-                // Saving Data
-                if (ErrorMSG.equals("")) {
-                    try {
-                        tempStr = ("" + enterField1.getText() + " " + enterField2.getText()); 
-                        // Saves data to the Database
-                        App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
-                        hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
-                        softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
-                        JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
+                //Verification Process
+                if ((enterField1.getText().equals("") || enterField2.getText().equals("") || enterField3.getText().equals("")
+                || enterField4.getText().equals("") || enterField5.getText().equals("") || enterField6.getText().equals("")
+                || hardBox1.getSelectedItem().equals("--"))) {
+                    ErrorMSG = "Data entry missing somewhere!";
+                } else {
+                    if (!(ver.Verify(enterField1.getText(), "Name"))) {
+                        ErrorMSG = ErrorMSG + "| First Name is not Valid |\n";
+                    }
+                    if (!(ver.Verify(enterField2.getText(), "Name"))) {
+                        ErrorMSG = ErrorMSG + "| Last Name is not Valid |\n";
+                    }
+                    if (!(ver.Verify(enterField3.getText(), "Age"))) {
+                        ErrorMSG = ErrorMSG + "| Age is not Valid |\n";
+                    }
+                    if (!(ver.Verify(enterField4.getText(), "Email"))) {
+                        ErrorMSG = ErrorMSG + "| Email is not Valid |\n";
+                    }
+                    if (!(ver.Verify(enterField5.getText(), "Number"))) {
+                        ErrorMSG = ErrorMSG + "| Phone Number is not Valid |\n";
+                    }
+                    if (!(ver.Verify(enterField6.getText(), "Date"))) {
+                        ErrorMSG = ErrorMSG + "| Date hired is not Valid |\n";
+                    }
+                    // Saving Data
+                    if (ErrorMSG.equals("")) {
+                        try {
+                            tempStr = ("" + enterField1.getText() + " " + enterField2.getText()); 
+                            // Saves data to the Database
+                            App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
+                            hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
+                            softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
+                            JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
-                        //clears the fields
-                        enterField1.setText("");
-                        enterField2.setText("");
-                        enterField3.setText("");
-                        enterField4.setText("");
-                        enterField5.setText("");
-                        enterField6.setText("");
-                        hardBox1.setSelectedItem("--");
-                        hardBox2.setSelectedItem("--");
-                        hardBox3.setSelectedItem("--");
-                        softBox1.setSelectedItem("--");
-                        softBox2.setSelectedItem("--");
-                        softBox3.setSelectedItem("--");
+                            //clears the fields
+                            enterField1.setText("");
+                            enterField2.setText("");
+                            enterField3.setText("");
+                            enterField4.setText("");
+                            enterField5.setText("");
+                            enterField6.setText("");
+                            hardBox1.setSelectedItem("--");
+                            hardBox2.setSelectedItem("--");
+                            hardBox3.setSelectedItem("--");
+                            softBox1.setSelectedItem("--");
+                            softBox2.setSelectedItem("--");
+                            softBox3.setSelectedItem("--");
 
-                        setDepth("Home");
-                    } catch (SQLException e1) {
-                            e1.printStackTrace();
+                            setDepth("EmpOptions");
+                        } catch (SQLException e1) {
+                                e1.printStackTrace();
+                        }
                     }
                 }
+                if (!(ErrorMSG.equals(""))) {
+                    JOptionPane.showMessageDialog(this, ErrorMSG, "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else if (e.getSource() == backButton && Layer.equals("AddEmp")) {
+                setDepth("EmpOptions");
+        } else if (e.getSource() == viewEmpButton && Layer.equals("EmpOptions")) {
+            setDepth("ViewEmp");
+            try {
+                infoDisplay.setText(App.getInfo("Full"));
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
-            if (!(ErrorMSG.equals(""))) {
-                JOptionPane.showMessageDialog(this, ErrorMSG, "ERROR", JOptionPane.INFORMATION_MESSAGE);
-            }
-        // } else if (e.getSource() == editButton) {
-        //     editEmployee();
-        // } else if (e.getSource() == demButton || e.getSource() == demSave || e.getSource() == demEdit) { //Demographics section
+        } else if (e.getSource() == editButton && Layer.equals("ViewEmp")) {
+        } else if (e.getSource() == delButton && Layer.equals("ViewEmp")) {
+        } else if (e.getSource() == backButton && Layer.equals("ViewEmp")) {
+            setDepth("EmpOptions");
 
         //     saveButton.setVisible(false);
         //     editButton.setVisible(false);
@@ -268,13 +289,13 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         Layer = getDepth();
 
         // 1st Level Layer
-        if (Layer.equals("Home")) {
+        if (Layer.equals("EmpOptions")) {
             // On-Screen(Bounds)
-            saveButton.setBounds(140, 400, 200, 30);
-            viewButton.setBounds(140, 450, 200, 30);
+            saveEmpButton.setBounds(140, 400, 200, 30);
+            viewEmpButton.setBounds(140, 450, 200, 30);
             // On-Screen(Visibility)
-            saveButton.setVisible(true);
-            viewButton.setVisible(true);
+            saveEmpButton.setVisible(true);
+            viewEmpButton.setVisible(true);
 
             // Off-Screen
             label1.setVisible(false);
@@ -302,6 +323,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             softBox1.setVisible(false);
             softBox2.setVisible(false);
             softBox3.setVisible(false);
+            saveButton.setVisible(false);
+            viewButton.setVisible(false);
             editButton.setVisible(false);
             delButton.setVisible(false);
             backButton.setVisible(false);
@@ -361,10 +384,12 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             softBox1.setVisible(true);
             softBox2.setVisible(true);
             softBox3.setVisible(true);
+            saveButton.setVisible(true);
             backButton.setVisible(true);
 
             // Off-Screen
-            viewButton.setVisible(false);
+            saveEmpButton.setVisible(false);
+            viewEmpButton.setVisible(false);
         } else if (Layer.equals("ViewEmp")) {
             // On-Screen(Bounds)
             scroll.setBounds(20, 20, 440, 600);
@@ -378,14 +403,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             backButton.setVisible(true);
 
             // Off-Screen
-            saveButton.setVisible(false);
-            viewButton.setVisible(false);
+            saveEmpButton.setVisible(false);
+            viewEmpButton.setVisible(false);
         }
     }
-
-    private void editEmployee() {
-        // Placeholder for edit functionality
-        JOptionPane.showMessageDialog(this, "Edit functionality not implemented yet.", "Edit Employee", JOptionPane.INFORMATION_MESSAGE);
-    }
-
 }
