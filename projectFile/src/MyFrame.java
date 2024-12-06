@@ -76,7 +76,6 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         viewEmpButton.setBounds(140, 450, 200, 30);
 
         infoDisplay.setEditable(false);
-        infoDisplay.setLineWrap(true);
 
         // Add action listeners
         saveButton.addActionListener(this);
