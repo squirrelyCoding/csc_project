@@ -69,7 +69,7 @@ public class App {
         }
         return answer;
     }
-    public static void saveInfo(String name, String age, String email, String phone, String HS1, String HS2, String HS3, String SS1, String SS2, String SS3, String date) throws SQLException {
+    public static void saveInfo(String name, String age, String email, String phone, String date, String HS1, String HS2, String HS3, String SS1, String SS2, String SS3) throws SQLException {
         boolean taken = false;
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
@@ -125,8 +125,8 @@ public class App {
         statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
     }
     public static void main(String[] args) throws Exception {
-       // new MyFrame();
-        new TitleFrame();
+       new MyFrame();
+        // new TitleFrame();
     }
 }
 

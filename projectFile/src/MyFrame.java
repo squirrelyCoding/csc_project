@@ -8,10 +8,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private String Depth = "Home";
     private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
     private JTextArea infoDisplay;
-    private JTextField enterField1, enterField2, enterField3, enterField4,enterField5, enterField6, enterField7, enterField8, enterField9, enterField10, enterField11, enterField12;
-    private JTextField nameField, ageField, dateHiredField, demField, phoneField, emailField;
-    private JComboBox<String> skillsBox;
-    private JButton saveButton, viewButton, editButton, delButton, backButton, demButton, demSave, demEdit;
+    private JTextField enterField1, enterField2, enterField3, enterField4, enterField5, enterField6;
+    private JComboBox<String> hardBox1, hardBox2, hardBox3, softBox1, softBox2, softBox3;
+    private JButton saveButton, viewButton, editButton, delButton, backButton;
     private JScrollPane scroll;
     private newMember currentEmployee;
 
@@ -31,41 +30,35 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         label3 = new JLabel("Age:");
         label4 = new JLabel("Email:");
         label5 = new JLabel("Phone Number (###-###-####):");
-        label6 = new JLabel("Hardskill 1:");
-        label7 = new JLabel("Hardskill 2:");
-        label8 = new JLabel("Hardskill 3:");
-        label9 = new JLabel("Softskill 1:");
-        label10 = new JLabel("Softskill 2:");
-        label11 = new JLabel("Softskill 3:");
-        label12 = new JLabel("Date Hired (mm/dd/yyyy):");
+        label6 = new JLabel("Date Hired (mm/dd/yyyy):");
+        label7 = new JLabel("Hardskill 1 (Required):");
+        label8 = new JLabel("Hardskill 2:");
+        label9 = new JLabel("Hardskill 3:");
+        label10 = new JLabel("Softskill 1:");
+        label11 = new JLabel("Softskill 2:");
+        label12 = new JLabel("Softskill 3:");
 
-        // scrollPane
+        // Create scrollPane
         infoDisplay = new JTextArea();
         scroll = new JScrollPane(infoDisplay);
 
         // Create textFields
-        nameField = new JTextField(20);
-        ageField = new JTextField(20);
-        dateHiredField = new JTextField(20);
-        demField = new JTextField(30);
-        phoneField = new JTextField(20);
-        emailField = new JTextField(20);
         enterField1 = new JTextField();
         enterField2 = new JTextField();
         enterField3 = new JTextField();
         enterField4 = new JTextField();
         enterField5 = new JTextField();
         enterField6 = new JTextField();
-        enterField7 = new JTextField();
-        enterField8 = new JTextField();
-        enterField9 = new JTextField();
-        enterField10 = new JTextField();
-        enterField11 = new JTextField();
-        enterField12 = new JTextField();
 
         // Create dropdown for skills
-        String[] skillsOptions = {"Java", "Python", "C++", "JavaScript"};
-        skillsBox = new JComboBox<>(skillsOptions);
+        String[] hardSkillOptions = {"--", "Java", "Python", "C++", "JavaScript"};
+        String[] softSkillOptions = {"--", "Leadership", "Integrity", "Creative", "Patience"};
+        hardBox1 = new JComboBox<>(hardSkillOptions);
+        hardBox2 = new JComboBox<>(hardSkillOptions);
+        hardBox3 = new JComboBox<>(hardSkillOptions);
+        softBox1 = new JComboBox<>(softSkillOptions);
+        softBox2 = new JComboBox<>(softSkillOptions);
+        softBox3 = new JComboBox<>(softSkillOptions);
 
         // Create buttons
         saveButton = new JButton("Save");
@@ -75,18 +68,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         backButton = new JButton("Back");
 
         // Set bounds for components
-        nameField.setBounds(150, 50, 200, 30);
-        ageField.setBounds(150, 100, 50, 30); // Corrected bounds for ageField
-        dateHiredField.setBounds(150, 150, 200, 30);
-        skillsBox.setBounds(150, 200, 200, 30);
-        demField.setBounds(150, 250, 200, 130);
-        
         saveButton.setBounds(140, 400, 200, 30);
-        editButton.setBounds(150, 350, 200, 30);
         viewButton.setBounds(140, 450, 200, 30);
-        demButton.setBounds(150, 300, 200, 30);
-        demSave.setBounds(150, 200, 200, 30);
-        demEdit.setBounds(150, 200, 200, 30);
 
         infoDisplay.setEditable(false);
 
@@ -98,27 +81,19 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         backButton.addActionListener(this);
 
         // Add components to frame
-        this.add(new JLabel("Name:")).setBounds(50, 50, 100, 30);
-        this.add(nameField);
-        this.add(new JLabel("Age:")).setBounds(50, 100, 100, 30); // Added label for ageField
-        this.add(ageField); // Added ageField to the frame
-        this.add(new JLabel("Date Hired:")).setBounds(50, 100, 100, 30);
-        this.add(dateHiredField);
-        this.add(new JLabel("Skills:")).setBounds(50, 150, 100, 30);
-        this.add(skillsBox);
-        this.add(demField);
         this.add(enterField1);
         this.add(enterField2);
         this.add(enterField3);
         this.add(enterField4);
         this.add(enterField5);
         this.add(enterField6);
-        this.add(enterField7);
-        this.add(enterField8);
-        this.add(enterField9);
-        this.add(enterField10);
-        this.add(enterField11);
-        this.add(enterField12);
+
+        this.add(hardBox1);
+        this.add(hardBox2);
+        this.add(hardBox3);
+        this.add(softBox1);
+        this.add(softBox2);
+        this.add(softBox3);
 
         this.add(label1);
         this.add(label2);
@@ -138,14 +113,31 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(saveButton);
         this.add(viewButton);
         this.add(editButton);
-        this.add(demButton);
-        this.add(demSave);
-        this.add(demEdit);
         this.add(delButton);
         this.add(backButton);
 
         // Setting the frame to visible while setting all non-startup variables to false
         this.setVisible(true);
+
+            // scrollPane
+            scroll.setVisible(false);
+
+            // textFields
+            enterField1.setVisible(false);
+            enterField2.setVisible(false);
+            enterField3.setVisible(false);
+            enterField4.setVisible(false);
+            enterField5.setVisible(false);
+            enterField6.setVisible(false);
+
+            // dropBoxes
+            hardBox1.setVisible(false);
+            hardBox2.setVisible(false);
+            hardBox3.setVisible(false);
+            softBox1.setVisible(false);
+            softBox2.setVisible(false);
+            softBox3.setVisible(false);
+
             // labels
             label1.setVisible(false);
             label2.setVisible(false);
@@ -160,23 +152,6 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             label11.setVisible(false);
             label12.setVisible(false);
 
-            // scrollPane
-            scroll.setVisible(false);
-
-            // textFields
-            enterField1.setVisible(false);
-            enterField2.setVisible(false);
-            enterField3.setVisible(false);
-            enterField4.setVisible(false);
-            enterField5.setVisible(false);
-            enterField6.setVisible(false);
-            enterField7.setVisible(false);
-            enterField8.setVisible(false);
-            enterField9.setVisible(false);
-            enterField10.setVisible(false);
-            enterField11.setVisible(false);
-            enterField12.setVisible(false);
-
             // buttons
             editButton.setVisible(false);
             delButton.setVisible(false);
@@ -185,6 +160,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             // temps
             // saveButton.setVisible(false);
             // viewButton.setVisible(false);
+
     }
     public String getDepth() {
         return Depth;
@@ -196,37 +172,67 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     public void actionPerformed(ActionEvent e) {
         String Layer = getDepth();
         String tempStr = "";
+        String ErrorMSG = "";
         // 1st Level layer
         if (e.getSource() == saveButton && Layer.equals("Home")) {
             setDepth("AddEmp");
         } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
-            try {
-                
-                tempStr = ("" + enterField1.getText() + " " + enterField2.getText()); 
-                // Saves data to the Database
-                App.saveInfo(tempStr, enterField3.getText(),
-                enterField4.getText(), enterField5.getText(), enterField6.getText(),
-                enterField7.getText(), enterField8.getText(), enterField9.getText(),
-                enterField10.getText(), enterField11.getText(), enterField12.getText());
-                JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            //Verification Process
+            if ((enterField1.getText().equals("") || enterField2.getText().equals("") || enterField3.getText().equals("")
+            || enterField4.getText().equals("") || enterField5.getText().equals("") || enterField6.getText().equals("")
+            || hardBox1.getSelectedItem().equals("--"))) {
+                ErrorMSG = "Data entry missing somewhere!";
+            } else {
+                if (!(ver.Verify(enterField1.getText(), "Name"))) {
+                    ErrorMSG = ErrorMSG + "| First Name is not Valid |\n";
+                }
+                if (!(ver.Verify(enterField2.getText(), "Name"))) {
+                    ErrorMSG = ErrorMSG + "| Last Name is not Valid |\n";
+                }
+                if (!(ver.Verify(enterField3.getText(), "Age"))) {
+                    ErrorMSG = ErrorMSG + "| Age is not Valid |\n";
+                }
+                if (!(ver.Verify(enterField4.getText(), "Email"))) {
+                    ErrorMSG = ErrorMSG + "| Email is not Valid |\n";
+                }
+                if (!(ver.Verify(enterField5.getText(), "Number"))) {
+                    ErrorMSG = ErrorMSG + "| Phone Number is not Valid |\n";
+                }
+                if (!(ver.Verify(enterField6.getText(), "Date"))) {
+                    ErrorMSG = ErrorMSG + "| Date hired is not Valid |\n";
+                }
+                // Saving Data
+                if (ErrorMSG.equals("")) {
+                    try {
+                        tempStr = ("" + enterField1.getText() + " " + enterField2.getText()); 
+                        // Saves data to the Database
+                        App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
+                        hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
+                        softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
+                        JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
-                //clears the fields
-                enterField1.setText("");
-                enterField2.setText("");
-                enterField3.setText("");
-                enterField4.setText("");
-                enterField5.setText("");
-                enterField6.setText("");
-                enterField7.setText("");
-                enterField8.setText("");
-                enterField9.setText("");
-                enterField10.setText("");
-                enterField11.setText("");
-                enterField12.setText("");
+                        //clears the fields
+                        enterField1.setText("");
+                        enterField2.setText("");
+                        enterField3.setText("");
+                        enterField4.setText("");
+                        enterField5.setText("");
+                        enterField6.setText("");
+                        hardBox1.setSelectedItem("--");
+                        hardBox2.setSelectedItem("--");
+                        hardBox3.setSelectedItem("--");
+                        softBox1.setSelectedItem("--");
+                        softBox2.setSelectedItem("--");
+                        softBox3.setSelectedItem("--");
 
-                setDepth("Home");
-            } catch (SQLException e1) {
-                    e1.printStackTrace();
+                        setDepth("Home");
+                    } catch (SQLException e1) {
+                            e1.printStackTrace();
+                    }
+                }
+            }
+            if (!(ErrorMSG.equals(""))) {
+                JOptionPane.showMessageDialog(this, ErrorMSG, "ERROR", JOptionPane.INFORMATION_MESSAGE);
             }
         // } else if (e.getSource() == editButton) {
         //     editEmployee();
@@ -289,12 +295,12 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             enterField4.setVisible(false);
             enterField5.setVisible(false);
             enterField6.setVisible(false);
-            enterField7.setVisible(false);
-            enterField8.setVisible(false);
-            enterField9.setVisible(false);
-            enterField10.setVisible(false);
-            enterField11.setVisible(false);
-            enterField12.setVisible(false);
+            hardBox1.setVisible(false);
+            hardBox2.setVisible(false);
+            hardBox3.setVisible(false);
+            softBox1.setVisible(false);
+            softBox2.setVisible(false);
+            softBox3.setVisible(false);
             editButton.setVisible(false);
             delButton.setVisible(false);
             backButton.setVisible(false);
@@ -307,25 +313,25 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             label3.setBounds(30, 80, 100, 30);
             label4.setBounds(30, 110, 100, 30);
             label5.setBounds(30, 140, 200, 30);
-            label6.setBounds(30, 170, 100, 30);
-            label7.setBounds(30, 200, 100, 30);
+            label6.setBounds(30, 170, 200, 30);
+            label7.setBounds(30, 200, 200, 30);
             label8.setBounds(30, 230, 100, 30);
             label9.setBounds(30, 260, 100, 30);
             label10.setBounds(30, 290, 100, 30);
             label11.setBounds(30, 320, 100, 30);
-            label12.setBounds(30, 350, 200, 30);
+            label12.setBounds(30, 350, 100, 30);
             enterField1.setBounds(225, 24, 200, 25);
             enterField2.setBounds(225, 54, 200, 25);
             enterField3.setBounds(225, 84, 200, 25);
             enterField4.setBounds(225, 114, 200, 25);
             enterField5.setBounds(225, 144, 200, 25);
             enterField6.setBounds(225, 174, 200, 25);
-            enterField7.setBounds(225, 204, 200, 25);
-            enterField8.setBounds(225, 234, 200, 25);
-            enterField9.setBounds(225, 264, 200, 25);
-            enterField10.setBounds(225, 294, 200, 25);
-            enterField11.setBounds(225, 324, 200, 25);
-            enterField12.setBounds(225, 354, 200, 25);
+            hardBox1.setBounds(225, 204, 200, 25);
+            hardBox2.setBounds(225, 234, 200, 25);
+            hardBox3.setBounds(225, 264, 200, 25);
+            softBox1.setBounds(225, 294, 200, 25);
+            softBox2.setBounds(225, 324, 200, 25);
+            softBox3.setBounds(225, 354, 200, 25);
             saveButton.setBounds(100, 400, 280, 30);
             backButton.setBounds(100, 450, 280, 30);
 
@@ -348,12 +354,12 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             enterField4.setVisible(true);
             enterField5.setVisible(true);
             enterField6.setVisible(true);
-            enterField7.setVisible(true);
-            enterField8.setVisible(true);
-            enterField9.setVisible(true);
-            enterField10.setVisible(true);
-            enterField11.setVisible(true);
-            enterField12.setVisible(true);
+            hardBox1.setVisible(true);
+            hardBox2.setVisible(true);
+            hardBox3.setVisible(true);
+            softBox1.setVisible(true);
+            softBox2.setVisible(true);
+            softBox3.setVisible(true);
             backButton.setVisible(true);
 
             // Off-Screen
