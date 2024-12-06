@@ -36,43 +36,8 @@ public class ver {
             }
             if (!Input.endsWith(".com")) {
                 result = false; // Email doesn't end with ".com"
-        if ((!type.equals("Skill")) && Input.contains("#")
-        || Input.contains("\\") || Input.contains("|") || Input.contains(";") || Input.contains(":") || Input.contains("\"")
-        || Input.contains(",") || Input.contains("<") || Input.contains(">")) {
-            result = false;
-        }
-        // Name/Age Check
-        if (type.equals("Name") || type.equals("Age")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("-") || Input.contains("}") || Input.contains("{") || Input.contains("'")
-            || Input.contains("?") || Input.contains(".") || Input.contains("/") || Input.contains("(") || Input.contains(")")
-            || Input.contains(" ") || Input.contains("[") || Input.contains("]")) {
-                result = false;
-            }
-            if (type.equals("Name")) {
-                try {
-                    tempInt = Integer.parseInt(Input);
-                    result = false;
-                } catch (Exception e) {}
             } else {
-                try {
-                    tempInt = Integer.parseInt(Input);
-                } catch (Exception e) {
-                    result = false;
-                }
-            }
-
-        // Email Check
-        } else if (type.equals("Email")) {
-            if (Input.contains("/") || Input.contains("(") || Input.contains(")") || Input.contains(" ") || Input.contains("[")
-            || Input.contains("]")) {
-                result = false;
-            }
-            if (!Input.endsWith(".com")) {
-                result = false;
-            } else {
-                Input.replace(".com", "");
+                Input = Input.replace(".com", "");
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -80,16 +45,11 @@ public class ver {
                     tempInt++;
                 }
             }
-
-            if ((tempInt != 1)) {
+            if (tempInt != 1) {
                 result = false; // More than 1 "@"
             }
-            if (Input.endsWith(".com")) {
-                Input.replace(".com", "");
-                Input.replace("@", "");
-                if (Input.equals("")) {
-                    result = false; // No email provided
-                }
+            if (Input.equals("")) {
+                result = false; // No email provided
             }
         // Phone Number Check
         } else if (type.equals("Number")) {
@@ -100,7 +60,7 @@ public class ver {
                 result = false; // Phone number not of 12 characters in size
             }
             tempInt = 0;
-            for (int i = 0; i <Input.length(); i++) {
+            for (int i = 0; i < Input.length(); i++) {
                 if (Input.charAt(i) == '-') {
                     tempInt++;
                 }
@@ -111,7 +71,7 @@ public class ver {
             if ((Input.length() > 8) && (!((Input.charAt(3) == '-') && (Input.charAt(7) == '-')))) {
                 result = false; // "-"'s not in valid locations
             }
-            Input.replaceAll("-", "");
+            Input = Input.replaceAll("-", "");
             if (!charCheck(Input)) {
                 result = false; // Characters included in Phone Number
             }
@@ -122,52 +82,6 @@ public class ver {
             }
             if (Input.length() != 10) {
                 result = false; // Date not of 10 characters in size
-
-            if (!(tempInt == 1)) {
-                result = false;
-            } else {
-                Input.replace("@", "");
-            }
-            if (Input.equals("")) {
-                result = false;
-            }
-        // Phone Number Check
-        } else if (type.equals("Number")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("}") || Input.contains("{") || Input.contains("'") || Input.contains("?")
-            || Input.contains(".") || Input.contains("/") || Input.contains("(") || Input.contains(")") || Input.contains(" ")
-            || Input.contains("[") || Input.contains("]")) {
-                result = false;
-            }
-            if (!(Input.length() == 12)) {
-                result = false;
-            }
-            if ((Input.length() > 8) && (!((Input.charAt(4) == '-') && (Input.charAt(8) == '-')))) {
-                result = false;
-            }
-            try {
-                Input.replaceAll("-", "");
-                tempInt = Integer.parseInt(Input);
-            } catch (Exception e) {
-                result = false;
-            }
-        // Skill Check
-        } else if (type.equals("Skill")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("*") || Input.contains("_") || Input.contains("=") || Input.contains("+")
-            || Input.contains("'") || Input.contains("?") || Input.contains("/")) {
-                result = false;
-            }
-
-        // Date Check
-        } else if (type.equals("Date")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("-") || Input.contains("}") || Input.contains("{") || Input.contains("'")
-            || Input.contains("?") || Input.contains(".") || Input.contains("(") || Input.contains(")") || Input.contains(" ")
-            || Input.contains("[") || Input.contains("]")) {
-                result = false;
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -175,27 +89,21 @@ public class ver {
                     tempInt++;
                 }
             }
-
             if (tempInt != 2) {
                 result = false; // Not exactly 2 "/"'s
             }
             if ((Input.length() > 6) && (!((Input.charAt(2) == '/') && (Input.charAt(5) == '/')))) {
                 result = false; // "/"'s not in valid locations
             }
-            Input.replaceAll("/", "");
+            Input = Input.replaceAll("/", "");
             if (!charCheck(Input)) {
                 result = false; // Characters included in Date
-
-            Input.replaceAll("/", "");
-            if (tempInt > 2) {
-                result = false;
             }
-            try {
-                tempInt = Integer.parseInt(Input);
-                if (!(tempInt == 8)) {
-                    result = false;
-                }
-            } catch (Exception e) {
+        // Skill Check
+        } else if (type.equals("Skill")) {
+            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
+            || Input.contains("^") || Input.contains("*") || Input.contains("_") || Input.contains("=") || Input.contains("+")
+            || Input.contains("'") || Input.contains("?") || Input.contains("/")) {
                 result = false;
             }
         } else {
@@ -212,6 +120,7 @@ public class ver {
         }
         return result;
     }
+
     public static Boolean charCheck(String temp) {
         boolean result = true;
         String Input = "";
@@ -229,5 +138,4 @@ public class ver {
         }
         return result;
     }
-
 }
