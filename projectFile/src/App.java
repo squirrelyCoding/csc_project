@@ -85,7 +85,6 @@ public class App {
         Connection conn = DriverManager.getConnection(jdbcEmployeeUrl);
         Statement statement = conn.createStatement();
         ResultSet Result = statement.executeQuery(rowCount);
-        ResultSetMetaData RSMD;
         Random rand = new Random();
         int IssueID = 1 + rand.nextInt(10);
         Result.next();
@@ -127,7 +126,6 @@ public class App {
         statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
     }
     public static void main(String[] args) throws Exception {
-        new MyFrame();
         new TitleFrame();
     }
 }
