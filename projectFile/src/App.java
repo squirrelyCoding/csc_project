@@ -22,9 +22,24 @@ public class App {
             Result2.next();
             // Display all of the DB data
             if (type.equals("Full")) {
-                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id")
-                    + " | Name:" + Result1.getString("name")
-                    + " | Age:" + Result1.getString("age") + "\n";
+                answer = answer + "Employee #" + count + " ID:" + Result1.getString("id") + " | Name:" + Result1.getString("name")
+                + " | Age:" + Result1.getString("age") + " | H.Skill1:" + Result2.getString("hardSkill1");
+                if (!Result2.getString("hardSkill2").equals("--")) {
+                    answer = answer + " | H.Skill2:" + Result2.getString("hardSkill2");
+                }
+                if (!Result2.getString("hardSkill3").equals("--")) {
+                    answer = answer + " | H.Skill3:" + Result2.getString("hardSkill3");
+                }
+                if (!Result2.getString("softSkill1").equals("--")) {
+                    answer = answer + " | S.Skill1:" + Result2.getString("hardSkill1");
+                }
+                if (!Result2.getString("softSkill2").equals("--")) {
+                    answer = answer + " | S.Skill2:" + Result2.getString("hardSkill2");
+                }
+                if (!Result2.getString("softSkill3").equals("--")) {
+                    answer = answer + " | S.Skill3:" + Result2.getString("hardSkill3");
+                }
+                answer = answer + "\n";
                 ++count;
 
             // Display specific DB data
