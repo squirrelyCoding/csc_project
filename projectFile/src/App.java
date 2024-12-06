@@ -126,12 +126,11 @@ public class App {
     }
     public static void main(String[] args) throws Exception {
 
-       new MyFrame();
-        // new TitleFrame();
+      // new MyFrame();
+        // // new TitleFrame();
 
-        new MyFrame();
+        // new MyFrame();
         new TitleFrame();
-// main
     }
 }
 

@@ -73,7 +73,6 @@ public class ver {
                 result = false;
             } else {
                 Input.replace(".com", "");
-//main
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -169,7 +168,6 @@ public class ver {
             || Input.contains("?") || Input.contains(".") || Input.contains("(") || Input.contains(")") || Input.contains(" ")
             || Input.contains("[") || Input.contains("]")) {
                 result = false;
-//main
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -199,7 +197,6 @@ public class ver {
                 }
             } catch (Exception e) {
                 result = false;
-//main
             }
         } else {
             System.out.println("CRITICAL ERROR! VERIFICATION TYPE NOT RECOGNIZED");
@@ -233,5 +230,4 @@ public class ver {
         return result;
     }
 
-//main
 }
