@@ -36,6 +36,9 @@ public class ver {
             }
             if (!Input.endsWith(".com")) {
                 result = false; // Email doesn't end with ".com"
+
+            } else {
+                Input = Input.replace(".com", "");
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -43,15 +46,11 @@ public class ver {
                     tempInt++;
                 }
             }
-            if ((tempInt != 1)) {
+            if (tempInt != 1) {
                 result = false; // More than 1 "@"
             }
-            if (Input.endsWith(".com")) {
-                Input.replace(".com", "");
-                Input.replace("@", "");
-                if (Input.equals("")) {
-                    result = false; // No email provided
-                }
+            if (Input.equals("")) {
+                result = false; // No email provided
             }
         // Phone Number Check
         } else if (type.equals("Number")) {
@@ -62,7 +61,7 @@ public class ver {
                 result = false; // Phone number not of 12 characters in size
             }
             tempInt = 0;
-            for (int i = 0; i <Input.length(); i++) {
+            for (int i = 0; i < Input.length(); i++) {
                 if (Input.charAt(i) == '-') {
                     tempInt++;
                 }
@@ -73,7 +72,7 @@ public class ver {
             if ((Input.length() > 8) && (!((Input.charAt(3) == '-') && (Input.charAt(7) == '-')))) {
                 result = false; // "-"'s not in valid locations
             }
-            Input.replaceAll("-", "");
+            Input = Input.replaceAll("-", "");
             if (!charCheck(Input)) {
                 result = false; // Characters included in Phone Number
             }
@@ -97,16 +96,22 @@ public class ver {
             if ((Input.length() > 6) && (!((Input.charAt(2) == '/') && (Input.charAt(5) == '/')))) {
                 result = false; // "/"'s not in valid locations
             }
-            Input.replaceAll("/", "");
+            Input = Input.replaceAll("/", "");
             if (!charCheck(Input)) {
                 result = false; // Characters included in Date
+            }
+        // Skill Check
+        } else if (type.equals("Skill")) {
+            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
+            || Input.contains("^") || Input.contains("*") || Input.contains("_") || Input.contains("=") || Input.contains("+")
+            || Input.contains("'") || Input.contains("?") || Input.contains("/")) {
+                result = false;
             }
         } else {
             System.out.println("CRITICAL ERROR! VERIFICATION TYPE NOT RECOGNIZED");
         }
         return result;
     }
-
     
     public static Boolean numCheck(String Input) {
         boolean result = true;
@@ -116,6 +121,7 @@ public class ver {
         }
         return result;
     }
+
     public static Boolean charCheck(String temp) {
         boolean result = true;
         String Input = "";
