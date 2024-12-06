@@ -3,30 +3,37 @@ import java.util.Random;
 
 public class App {
     public static String getInfo(String type) throws SQLException {
-        String queryStr = "SELECT * FROM employees";
-        String jdbcUrl = "jdbc:sqlite:Employees.db";
-        Connection conn = DriverManager.getConnection(jdbcUrl);
-        Statement statement = conn.createStatement();
-        ResultSet Result = statement.executeQuery(queryStr);
+        String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
+        String employeeStr = "SELECT * FROM employees";
+        Connection conn1 = DriverManager.getConnection(jdbcEmployeeUrl);
+        Statement statement1 = conn1.createStatement();
+        ResultSet Result1 = statement1.executeQuery(employeeStr);
+        
+        String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
+        String empEXPStr = "SELECT * FROM empEXP";
+        Connection conn2 = DriverManager.getConnection(jdbcEmpEXPUrl);
+        Statement statement2 = conn2.createStatement();
+        ResultSet Result2 = statement2.executeQuery(empEXPStr);
+
         String answer = "";
         String search;
         int count = 1;
-        while (Result.next()) {
-
+        while (Result1.next()) {
+            Result2.next();
             // Display all of the DB data
             if (type.equals("Full")) {
-                answer = answer + "Employee #" + count + " ID:<"+ Result.getString("id")
-                    + "> | Name:<" + Result.getString("name")
-                    + "> | Age:<" + Result.getString("age") + ">\n";
+                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id")
+                    + " | Name:" + Result1.getString("name")
+                    + " | Age:" + Result1.getString("age") + "\n";
                 ++count;
 
             // Display specific DB data
             } else if (type.equals("ID")) {
-                answer = answer + "Employee #" + count + " ID:<"+ Result.getString("id") + ">\n";
+                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";
             } else if (type.equals("Name")) {
-                answer = answer + "Employee #" + count + " Name:<" + Result.getString("name") + ">\n";
+                answer = answer + "Employee #" + count + " Name:" + Result1.getString("name") + "\n";
             } else if (type.equals("Age")) {
-                answer = answer + "Employee #" + count + " Age:<" + Result.getString("age") + ">\n";
+                answer = answer + "Employee #" + count + " Age:" + Result1.getString("age") + "\n";
 
             // Search query based on a specified Variables
             } else if (type.contains("S")) {
@@ -35,30 +42,30 @@ public class App {
                     search = search.replace("ID: ", "");
                     if (search.equals("")) {
                         answer = "No ID given\n";
-                    } else if (Result.getString("id").contains(search)) {
-                        answer = answer + "Employee #" + count + " ID:<"+ Result.getString("id")
-                            + "> | Name:<" + Result.getString("name")
-                            + "> | Age:<" + Result.getString("age") + ">\n";
+                    } else if (Result1.getString("id").contains(search)) {
+                        answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id")
+                            + " | Name:" + Result1.getString("name")
+                            + " | Age:" + Result1.getString("age") + "\n";
                         ++count;
                     }
                 } else if (search.contains("Name:")) {
                     search = search.replace("Name: ", "");
                     if (search.equals("")) {
                         answer = "No Name given\n";
-                    } else if (Result.getString("name").contains(search)) {
-                        answer = answer + "Employee #" + count + " ID:<"+ Result.getString("id")
-                            + "> | Name:<" + Result.getString("name")
-                            + "> | Age:<" + Result.getString("age") + ">\n";
+                    } else if (Result1.getString("name").contains(search)) {
+                        answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id")
+                            + " | Name:" + Result1.getString("name")
+                            + " | Age:" + Result1.getString("age") + "\n";
                         ++count;
                     }
                 } else if (search.contains("Age:")) {
                     search = search.replace("Age: ", "");
                     if (search.equals("")) {
                         answer = "No Age given\n";
-                    } else if (Result.getString("age").contains(search)) {
-                        answer = answer + "Employee #" + count + " ID:<"+ Result.getString("id")
-                            + "> | Name:<" + Result.getString("name")
-                            + "> | Age:<" + Result.getString("age") + ">\n";
+                    } else if (Result1.getString("age").contains(search)) {
+                        answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id")
+                            + " | Name:" + Result1.getString("name")
+                            + " | Age:" + Result1.getString("age") + "\n";
                         ++count;
                     }
                 }
@@ -70,14 +77,10 @@ public class App {
         return answer;
     }
     public static void saveInfo(String name, String age, String email, String phone, String date, String HS1, String HS2, String HS3, String SS1, String SS2, String SS3) throws SQLException {
-        boolean taken = false;
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
         String jdbcSprintUrl = "jdbc:sqlite:SprintEval.db";
         String employeeStr = "SELECT * FROM employees";
-        String empEXPStr = "SELECT * FROM empEXP";
-        String sprintStr = "SELECT * FROM sprintEval";
-        String sprintQuery = "INSERT INTO sprintEval(id";
         String rowCount = "SELECT COUNT(*) FROM employees";
         Connection conn = DriverManager.getConnection(jdbcEmployeeUrl);
         Statement statement = conn.createStatement();
@@ -85,7 +88,6 @@ public class App {
         ResultSetMetaData RSMD;
         Random rand = new Random();
         int IssueID = 1 + rand.nextInt(10);
-        int tempInt;
         Result.next();
         if (!(Result.getInt(1) >= 10)) {
             Result = statement.executeQuery(employeeStr);
@@ -125,17 +127,13 @@ public class App {
         statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
     }
     public static void main(String[] args) throws Exception {
-
-       new MyFrame();
-        // new TitleFrame();
-
         new MyFrame();
         new TitleFrame();
-// main
     }
 }
 
 // Note to self "!!USE FOR DB3 QUERY'S!!"
+//             String sprintQuery = "INSERT INTO sprintEval(id";
 //             Result = statement.executeQuery(sprintStr);
 //             RSMD = Result.getMetaData();
 //             for(tempInt = 1; tempInt < RSMD.getColumnCount(); ++tempInt) {

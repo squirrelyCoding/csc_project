@@ -36,44 +36,6 @@ public class ver {
             }
             if (!Input.endsWith(".com")) {
                 result = false; // Email doesn't end with ".com"
-        if ((!type.equals("Skill")) && Input.contains("#")
-        || Input.contains("\\") || Input.contains("|") || Input.contains(";") || Input.contains(":") || Input.contains("\"")
-        || Input.contains(",") || Input.contains("<") || Input.contains(">")) {
-            result = false;
-        }
-        // Name/Age Check
-        if (type.equals("Name") || type.equals("Age")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("-") || Input.contains("}") || Input.contains("{") || Input.contains("'")
-            || Input.contains("?") || Input.contains(".") || Input.contains("/") || Input.contains("(") || Input.contains(")")
-            || Input.contains(" ") || Input.contains("[") || Input.contains("]")) {
-                result = false;
-            }
-            if (type.equals("Name")) {
-                try {
-                    tempInt = Integer.parseInt(Input);
-                    result = false;
-                } catch (Exception e) {}
-            } else {
-                try {
-                    tempInt = Integer.parseInt(Input);
-                } catch (Exception e) {
-                    result = false;
-                }
-            }
-
-        // Email Check
-        } else if (type.equals("Email")) {
-            if (Input.contains("/") || Input.contains("(") || Input.contains(")") || Input.contains(" ") || Input.contains("[")
-            || Input.contains("]")) {
-                result = false;
-            }
-            if (!Input.endsWith(".com")) {
-                result = false;
-            } else {
-                Input.replace(".com", "");
-//main
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -81,7 +43,6 @@ public class ver {
                     tempInt++;
                 }
             }
-
             if ((tempInt != 1)) {
                 result = false; // More than 1 "@"
             }
@@ -123,53 +84,6 @@ public class ver {
             }
             if (Input.length() != 10) {
                 result = false; // Date not of 10 characters in size
-
-            if (!(tempInt == 1)) {
-                result = false;
-            } else {
-                Input.replace("@", "");
-            }
-            if (Input.equals("")) {
-                result = false;
-            }
-        // Phone Number Check
-        } else if (type.equals("Number")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("}") || Input.contains("{") || Input.contains("'") || Input.contains("?")
-            || Input.contains(".") || Input.contains("/") || Input.contains("(") || Input.contains(")") || Input.contains(" ")
-            || Input.contains("[") || Input.contains("]")) {
-                result = false;
-            }
-            if (!(Input.length() == 12)) {
-                result = false;
-            }
-            if ((Input.length() > 8) && (!((Input.charAt(4) == '-') && (Input.charAt(8) == '-')))) {
-                result = false;
-            }
-            try {
-                Input.replaceAll("-", "");
-                tempInt = Integer.parseInt(Input);
-            } catch (Exception e) {
-                result = false;
-            }
-        // Skill Check
-        } else if (type.equals("Skill")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("*") || Input.contains("_") || Input.contains("=") || Input.contains("+")
-            || Input.contains("'") || Input.contains("?") || Input.contains("/")) {
-                result = false;
-            }
-
-        // Date Check
-        } else if (type.equals("Date")) {
-            if (Input.contains("@") || Input.contains("~") || Input.contains("!") || Input.contains("$") || Input.contains("%")
-            || Input.contains("^") || Input.contains("&") || Input.contains("*") || Input.contains("_") || Input.contains("=")
-            || Input.contains("+") || Input.contains("-") || Input.contains("}") || Input.contains("{") || Input.contains("'")
-            || Input.contains("?") || Input.contains(".") || Input.contains("(") || Input.contains(")") || Input.contains(" ")
-            || Input.contains("[") || Input.contains("]")) {
-                result = false;
-//main
             }
             tempInt = 0;
             for (int i = 0; i < Input.length(); i++) {
@@ -177,7 +91,6 @@ public class ver {
                     tempInt++;
                 }
             }
-
             if (tempInt != 2) {
                 result = false; // Not exactly 2 "/"'s
             }
@@ -187,19 +100,6 @@ public class ver {
             Input.replaceAll("/", "");
             if (!charCheck(Input)) {
                 result = false; // Characters included in Date
-
-            Input.replaceAll("/", "");
-            if (tempInt > 2) {
-                result = false;
-            }
-            try {
-                tempInt = Integer.parseInt(Input);
-                if (!(tempInt == 8)) {
-                    result = false;
-                }
-            } catch (Exception e) {
-                result = false;
-//main
             }
         } else {
             System.out.println("CRITICAL ERROR! VERIFICATION TYPE NOT RECOGNIZED");
@@ -207,6 +107,7 @@ public class ver {
         return result;
     }
 
+    
     public static Boolean numCheck(String Input) {
         boolean result = true;
         if (Input.contains("1") || Input.contains("2") || Input.contains("3") || Input.contains("4") || Input.contains("5")
@@ -232,6 +133,4 @@ public class ver {
         }
         return result;
     }
-
-//main
 }
