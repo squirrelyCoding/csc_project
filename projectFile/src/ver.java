@@ -106,6 +106,8 @@ public class ver {
         }
         return result;
     }
+
+    
     public static Boolean numCheck(String Input) {
         boolean result = true;
         if (Input.contains("1") || Input.contains("2") || Input.contains("3") || Input.contains("4") || Input.contains("5")

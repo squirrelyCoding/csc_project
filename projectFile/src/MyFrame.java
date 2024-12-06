@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
+
     private String Depth = "Home";
     private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
     private JTextArea infoDisplay;
