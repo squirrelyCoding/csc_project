@@ -12,15 +12,22 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private JTextArea infoDisplay;
     private JTextField enterField1, enterField2, enterField3, enterField4, enterField5, enterField6;
     private JComboBox<String> hardBox1, hardBox2, hardBox3, softBox1, softBox2, softBox3;
-    private JButton saveButton, viewButton, editButton, delButton, backButton, searchButton, saveEmpButton, viewEmpButton;
+    private JButton saveButton, viewButton, editButton, delButton, backButton, myInfoButton, searchButton, saveEmpButton, viewEmpButton;
     private JScrollPane scroll;
     private newMember currentEmployee;
 
     MyFrame() {
+        String Access = "";
+        try {
+        Access = App.getPerms(1);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        setPerm(Access);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        this.setSize(494,800);
+        this.setSize(494,600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
@@ -68,13 +75,19 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         editButton = new JButton("Edit");
         delButton = new JButton("Delete");
         backButton = new JButton("Back");
+        myInfoButton = new JButton("View My Info");
         searchButton = new JButton("Search");
         saveEmpButton = new JButton("Add An Employee");
         viewEmpButton = new JButton("View Employees");
 
         // Set bounds for components
-        saveEmpButton.setBounds(140, 400, 200, 30);
-        viewEmpButton.setBounds(140, 450, 200, 30);
+        myInfoButton.setBounds(140, 400, 200, 30);
+        if (Access.equals("Moderator") || Access.equals("Admin") || Access.equals("HR") || Access.equals("Dev/Owner")) {
+            viewEmpButton.setBounds(140, 450, 200, 30);
+        }
+        if (Access.equals("Admin") || Access.equals("HR") || Access.equals("Dev/Owner")) {
+            saveEmpButton.setBounds(140, 500, 200, 30);
+        }
 
         infoDisplay.setEditable(false);
 
@@ -84,6 +97,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         editButton.addActionListener(this);
         delButton.addActionListener(this);
         backButton.addActionListener(this);
+        myInfoButton.addActionListener(this);
         searchButton.addActionListener(this);
         saveEmpButton.addActionListener(this);
         viewEmpButton.addActionListener(this);
@@ -123,51 +137,14 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(editButton);
         this.add(delButton);
         this.add(backButton);
+        this.add(myInfoButton);
+        this.add(myInfoButton);
+        this.add(searchButton);
         this.add(saveEmpButton);
         this.add(viewEmpButton);
 
-        // Setting the frame to visible while setting all non-startup variables to false
+        // Setting the frame and startup components to "visible"
         this.setVisible(true);
-
-            // scrollPane
-            scroll.setVisible(false);
-
-            // textFields
-            enterField1.setVisible(false);
-            enterField2.setVisible(false);
-            enterField3.setVisible(false);
-            enterField4.setVisible(false);
-            enterField5.setVisible(false);
-            enterField6.setVisible(false);
-
-            // dropBoxes
-            hardBox1.setVisible(false);
-            hardBox2.setVisible(false);
-            hardBox3.setVisible(false);
-            softBox1.setVisible(false);
-            softBox2.setVisible(false);
-            softBox3.setVisible(false);
-
-            // labels
-            label1.setVisible(false);
-            label2.setVisible(false);
-            label3.setVisible(false);
-            label4.setVisible(false);
-            label5.setVisible(false);
-            label6.setVisible(false);
-            label7.setVisible(false);
-            label8.setVisible(false);
-            label9.setVisible(false);
-            label10.setVisible(false);
-            label11.setVisible(false);
-            label12.setVisible(false);
-
-            // buttons
-            editButton.setVisible(false);
-            delButton.setVisible(false);
-            backButton.setVisible(false);
-            saveButton.setVisible(false);
-            viewButton.setVisible(false);
 
             // temps
             // saveButton.setVisible(false);
@@ -278,11 +255,17 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
         if (Layer.equals("EmpOptions")) { // 1st layer
             // On-Screen(Bounds)
-            saveEmpButton.setBounds(140, 400, 200, 30);
-            viewEmpButton.setBounds(140, 450, 200, 30);
+            myInfoButton.setBounds(140, 400, 200, 30);
+            if (Access.equals("Moderator") || Access.equals("Admin") || Access.equals("HR") || Access.equals("Dev/Owner")) {
+                viewEmpButton.setBounds(140, 450, 200, 30);
+            }
+            if (Access.equals("Admin") || Access.equals("HR") || Access.equals("Dev/Owner")) {
+                saveEmpButton.setBounds(140, 500, 200, 30);
+            }
             // On-Screen(Visibility)
             saveEmpButton.setVisible(true);
             viewEmpButton.setVisible(true);
+            myInfoButton.setVisible(true);
 
             // Off-Screen
             label1.setVisible(false);
@@ -313,11 +296,34 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             saveButton.setVisible(false);
             viewButton.setVisible(false);
             editButton.setVisible(false);
-            delButton.setVisible(false);
+            searchButton.setVisible(false);
             backButton.setVisible(false);
         
         // 2nd level Layers
-            } else if (Layer.equals("AddEmp")) { // 2nd layer
+            
+            } else if (Layer.equals("ViewEmp")) { // 2nd layer
+                // On-Screen(Bounds)
+                scroll.setBounds(20, 20, 440, 400);
+                searchButton.setBounds(100, 430, 280, 30);
+                if (Access.equals("HR") || Access.equals("Dev/Owner")) {
+                    editButton.setBounds(100, 470, 280, 30);
+                    backButton.setBounds(100, 510, 280, 30);
+                } else {
+                    backButton.setBounds(100, 470, 280, 30);
+                }
+                // On-Screen(Visibility)
+                scroll.setVisible(true);
+                searchButton.setVisible(true);
+                if (Access.equals("HR") || Access.equals("Dev/Owner")) {
+                    editButton.setVisible(true);
+                }
+                backButton.setVisible(true);
+
+                // Off-Screen
+                saveEmpButton.setVisible(false);
+                viewEmpButton.setVisible(false);
+                myInfoButton.setVisible(false);
+            } else if (Layer.equals("AddEmp")) {
                 // On-Screen(Bounds)
                 label1.setBounds(30, 20, 100, 30);
                 label2.setBounds(30, 50, 100, 30);
@@ -377,21 +383,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                 // Off-Screen
                 saveEmpButton.setVisible(false);
                 viewEmpButton.setVisible(false);
-            } else if (Layer.equals("ViewEmp")) {
-                // On-Screen(Bounds)
-                scroll.setBounds(20, 20, 440, 600);
-                editButton.setBounds(100, 630, 280, 30);
-                delButton.setBounds(100, 670, 280, 30);
-                backButton.setBounds(100, 710, 280, 30);
-                // On-Screen(Visibility)
-                scroll.setVisible(true);
-                editButton.setVisible(true);
-                delButton.setVisible(true);
-                backButton.setVisible(true);
-
-                // Off-Screen
-                saveEmpButton.setVisible(false);
-                viewEmpButton.setVisible(false);
+                myInfoButton.setVisible(false);
         }
     }
 }
