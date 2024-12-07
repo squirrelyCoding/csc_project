@@ -15,6 +15,9 @@ public class App {
         } else {
             answer = true;
         }
+        conn.close();
+        statement.close();
+        Result.close();
         return answer;
     }
     public static String getPerms(int ID) throws SQLException {
@@ -29,6 +32,9 @@ public class App {
                 Perm = Result.getString(3);
             }
         }
+        conn.close();
+        statement.close();
+        Result.close();
         return Perm;
     }
     public static String getInfo(String type) throws SQLException {
@@ -68,7 +74,7 @@ public class App {
                 if (!Result2.getString("softSkill3").equals("--")) {
                     answer = answer + " | S.Skill3:" + Result2.getString("hardSkill3");
                 }
-                answer = answer + "\n";
+                answer = answer + " | Sprints done: " + Result2.getInt("sprintCount") +"\n";
                 ++count;
 
             // Display specific DB data
@@ -121,9 +127,15 @@ public class App {
         if (answer.equals("")) {
             answer = "Couldn't find query (Make sure to enter \"ID: ___\", \"Name: ___\", or \"Age: ___\")\n";
         }
+        conn1.close();
+        statement1.close();
+        Result1.close();
+        conn2.close();
+        statement2.close();
+        Result2.close();
         return answer;
     }
-    public static void saveInfo(String name, String age, String email, String phone, String date, String HS1, String HS2, String HS3, String SS1, String SS2, String SS3) throws SQLException {
+    public static void saveInfo(String name, String age, String email, String phone, String date, String HS1, String HS2, String HS3, String SS1, String SS2, String SS3, String perm) throws SQLException {
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
         String jdbcSprintUrl = "jdbc:sqlite:SprintEval.db";
@@ -140,8 +152,10 @@ public class App {
             }
         }
         // Inserts info into first DB
-        statement.executeUpdate("INSERT INTO employees(id, name, age, email, phoneNum, dateHired)" +
-        " VALUES(" + IssueID + ", '" + name + "', '" + age + "', '" + email + "', '" + phone + "', '" + date + "');");
+        conn = DriverManager.getConnection(jdbcEmployeeUrl);
+        statement = conn.createStatement();
+        statement.executeUpdate("INSERT INTO employees(id, name, accessLVL, age, email, phoneNum, dateHired)" +
+        " VALUES(" + IssueID + ", '" + name + "', '" + perm + "', '" + age + "', '" + email + "', '" + phone + "', '" + date + "');");
         // Inserts info into second DB
         conn = DriverManager.getConnection(jdbcEmpEXPUrl);
         statement = conn.createStatement();
@@ -151,6 +165,10 @@ public class App {
         conn = DriverManager.getConnection(jdbcSprintUrl);
         statement = conn.createStatement();
         statement.executeUpdate("INSERT INTO sprintEval(id) VALUES(" + IssueID + ");");
+
+        conn.close();
+        statement.close();
+        Result.close();
     }
     public static void editInfo(int ID, String Name, int Age) throws SQLException {
         String jdbcUrl = "jdbc:sqlite:Employees.db";
@@ -158,12 +176,16 @@ public class App {
         Statement statement = conn.createStatement();
         statement.executeUpdate("UPDATE employees SET name=" + Name + " WHERE id=" + ID);
         statement.executeUpdate("UPDATE employees SET age=" + Age + " WHERE id=" + ID);
+        conn.close();
+        statement.close();
     }
     public static void deleteInfo(int ID) throws SQLException {
         String jdbcUrl = "jdbc:sqlite:Employees.db";
         Connection conn = DriverManager.getConnection(jdbcUrl);
         Statement statement = conn.createStatement();
         statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
+        conn.close();
+        statement.close();
     }
     public static void main(String[] args) throws Exception {
         new TitleFrame();

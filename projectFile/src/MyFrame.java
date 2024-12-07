@@ -8,10 +8,10 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
     private String Depth = "EmpOptions";
     private String PermLVL = "Employee";
-    private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
+    private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13;
     private JTextArea infoDisplay;
     private JTextField enterField1, enterField2, enterField3, enterField4, enterField5, enterField6;
-    private JComboBox<String> hardBox1, hardBox2, hardBox3, softBox1, softBox2, softBox3;
+    private JComboBox<String> hardBox1, hardBox2, hardBox3, softBox1, softBox2, softBox3, permBox;
     private JButton saveButton, viewButton, editButton, delButton, backButton, myInfoButton, searchButton, saveEmpButton, viewEmpButton;
     private JScrollPane scroll;
     private newMember currentEmployee;
@@ -46,6 +46,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         label10 = new JLabel("Softskill 1:");
         label11 = new JLabel("Softskill 2:");
         label12 = new JLabel("Softskill 3:");
+        label13 = new JLabel("Permission Level:");
 
         // Create scrollPane
         infoDisplay = new JTextArea();
@@ -62,12 +63,14 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         // Create dropdown for skills
         String[] hardSkillOptions = {"--", "Java", "Python", "C++", "JavaScript"};
         String[] softSkillOptions = {"--", "Leadership", "Integrity", "Creative", "Patience"};
+        String[] permBoxOptions = {"Employee", "Moderator", "Admin", "HR"};
         hardBox1 = new JComboBox<>(hardSkillOptions);
         hardBox2 = new JComboBox<>(hardSkillOptions);
         hardBox3 = new JComboBox<>(hardSkillOptions);
         softBox1 = new JComboBox<>(softSkillOptions);
         softBox2 = new JComboBox<>(softSkillOptions);
         softBox3 = new JComboBox<>(softSkillOptions);
+        permBox = new JComboBox<>(permBoxOptions);
 
         // Create buttons
         saveButton = new JButton("Save");
@@ -116,6 +119,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(softBox1);
         this.add(softBox2);
         this.add(softBox3);
+        this.add(permBox);
 
         this.add(label1);
         this.add(label2);
@@ -129,6 +133,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         this.add(label10);
         this.add(label11);
         this.add(label12);
+        this.add(label13);
 
         this.add(scroll);
 
@@ -213,7 +218,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                             if (App.empCount()) {
                                 App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
                                 hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
-                                softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
+                                softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString(), permBox.getSelectedItem().toString());
                                 JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                             } else {
                                 JOptionPane.showMessageDialog(this, "Uh-oh! There's no room to add an employee", "Database Full", JOptionPane.INFORMATION_MESSAGE);
@@ -280,6 +285,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             label10.setVisible(false);
             label11.setVisible(false);
             label12.setVisible(false);
+            label13.setVisible(false);
             scroll.setVisible(false);
             enterField1.setVisible(false);
             enterField2.setVisible(false);
@@ -293,6 +299,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             softBox1.setVisible(false);
             softBox2.setVisible(false);
             softBox3.setVisible(false);
+            permBox.setVisible(false);
             saveButton.setVisible(false);
             viewButton.setVisible(false);
             editButton.setVisible(false);
@@ -337,6 +344,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                 label10.setBounds(30, 290, 100, 30);
                 label11.setBounds(30, 320, 100, 30);
                 label12.setBounds(30, 350, 100, 30);
+                label13.setBounds(30, 380, 200, 30);
                 enterField1.setBounds(225, 24, 200, 25);
                 enterField2.setBounds(225, 54, 200, 25);
                 enterField3.setBounds(225, 84, 200, 25);
@@ -349,8 +357,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                 softBox1.setBounds(225, 294, 200, 25);
                 softBox2.setBounds(225, 324, 200, 25);
                 softBox3.setBounds(225, 354, 200, 25);
-                saveButton.setBounds(100, 400, 280, 30);
-                backButton.setBounds(100, 450, 280, 30);
+                permBox.setBounds(225, 384, 200, 25);
+                saveButton.setBounds(100, 450, 280, 30);
+                backButton.setBounds(100, 500, 280, 30);
 
                 // On-Screen(Visiblity)
                 label1.setVisible(true);
@@ -377,6 +386,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                 softBox1.setVisible(true);
                 softBox2.setVisible(true);
                 softBox3.setVisible(true);
+                permBox.setVisible(true);
                 saveButton.setVisible(true);
                 backButton.setVisible(true);
 
