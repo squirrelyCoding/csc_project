@@ -17,6 +17,20 @@ public class App {
         }
         return answer;
     }
+    public static String getPerms(int ID) throws SQLException {
+        String jdbcUrl = "jdbc:sqlite:Employees.db";
+        String queryStr = "SELECT * FROM employees";
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement statement = conn.createStatement();
+        ResultSet Result = statement.executeQuery(queryStr);
+        String Perm = "";
+        while(Result.next()) {
+            if (ID == Result.getInt(1)) {
+                Perm = Result.getString(3);
+            }
+        }
+        return Perm;
+    }
     public static String getInfo(String type) throws SQLException {
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String employeeStr = "SELECT * FROM employees";
@@ -155,18 +169,3 @@ public class App {
         new TitleFrame();
     }
 }
-
-// Note to self "!!USE FOR DB3 QUERY'S!!"
-//             String sprintQuery = "INSERT INTO sprintEval(id";
-//             Result = statement.executeQuery(sprintStr);
-//             RSMD = Result.getMetaData();
-//             for(tempInt = 1; tempInt < RSMD.getColumnCount(); ++tempInt) {
-//                 sprintQuery = (sprintQuery + ", '" + tempInt);
-//             }
-//             Result = statement.executeQuery(sprintStr);
-//             RSMD = Result.getMetaData();
-//             sprintQuery = sprintQuery + "') VALUES(" + IssueID;
-//             for(tempInt = 1; tempInt < RSMD.getColumnCount(); ++tempInt) {
-//                 sprintQuery = (sprintQuery + ", NULL");
-//             }
-//             sprintQuery = (sprintQuery + ");");
