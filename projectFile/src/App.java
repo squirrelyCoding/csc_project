@@ -2,6 +2,21 @@ import java.sql.*;
 import java.util.Random;
 
 public class App {
+    public static boolean empCount() throws SQLException {
+        String jdbcUrl = "jdbc:sqlite:Employees.db";
+        String rowCount = "SELECT COUNT(*) FROM employees";
+        boolean answer;
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement statement = conn.createStatement();
+        ResultSet Result = statement.executeQuery(rowCount);
+        Result.next();
+        if (Result.getInt(1) > 10) {
+            answer = false;
+        } else {
+            answer = true;
+        }
+        return answer;
+    }
     public static String getInfo(String type) throws SQLException {
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String employeeStr = "SELECT * FROM employees";
@@ -45,10 +60,13 @@ public class App {
             // Display specific DB data
             } else if (type.equals("ID")) {
                 answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";
+            } else if (type.equals("Access")) {
             } else if (type.equals("Name")) {
                 answer = answer + "Employee #" + count + " Name:" + Result1.getString("name") + "\n";
             } else if (type.equals("Age")) {
                 answer = answer + "Employee #" + count + " Age:" + Result1.getString("age") + "\n";
+            } else if (type.equals("Perm")) {
+                answer = answer + Result1.getString("accessLVL");
 
             // Search query based on a specified Variables
             } else if (type.contains("S")) {
@@ -96,36 +114,29 @@ public class App {
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
         String jdbcSprintUrl = "jdbc:sqlite:SprintEval.db";
         String employeeStr = "SELECT * FROM employees";
-        String rowCount = "SELECT COUNT(*) FROM employees";
         Connection conn = DriverManager.getConnection(jdbcEmployeeUrl);
         Statement statement = conn.createStatement();
-        ResultSet Result = statement.executeQuery(rowCount);
         Random rand = new Random();
         int IssueID = 1 + rand.nextInt(10);
-        Result.next();
-        if (!(Result.getInt(1) >= 10)) {
-            Result = statement.executeQuery(employeeStr);
-            while (Result.next()) {
-                while (Result.getInt("id") == IssueID) {
-                    IssueID = 1 + rand.nextInt(10);
-                    Result = statement.executeQuery(employeeStr);
-                }
+        ResultSet Result = statement.executeQuery(employeeStr);
+        while (Result.next()) {
+            while (Result.getInt("id") == IssueID) {
+                IssueID = 1 + rand.nextInt(10);
+                Result = statement.executeQuery(employeeStr);
             }
-            // Inserts info into first DB
-            statement.executeUpdate("INSERT INTO employees(id, name, age, email, phoneNum, dateHired)" +
-            " VALUES(" + IssueID + ", '" + name + "', '" + age + "', '" + email + "', '" + phone + "', '" + date + "');");
-            // Inserts info into second DB
-            conn = DriverManager.getConnection(jdbcEmpEXPUrl);
-            statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO empEXP(id, hardSkill1, hardSkill2, hardSkill3, softSkill1, softSkill2, softSkill3)" + 
-            " VALUES(" + IssueID + ", '" + HS1 + "', '" + HS2 + "', '" + HS3 + "', '" + SS1 + "', '" + SS2 + "', '" + SS3 + "');");
-            // Inserts info into third DB
-            conn = DriverManager.getConnection(jdbcSprintUrl);
-            statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO sprintEval(id) VALUES(" + IssueID + ");");
-        } else {
-            System.out.println("DB Full");
         }
+        // Inserts info into first DB
+        statement.executeUpdate("INSERT INTO employees(id, name, age, email, phoneNum, dateHired)" +
+        " VALUES(" + IssueID + ", '" + name + "', '" + age + "', '" + email + "', '" + phone + "', '" + date + "');");
+        // Inserts info into second DB
+        conn = DriverManager.getConnection(jdbcEmpEXPUrl);
+        statement = conn.createStatement();
+        statement.executeUpdate("INSERT INTO empEXP(id, hardSkill1, hardSkill2, hardSkill3, softSkill1, softSkill2, softSkill3)" + 
+        " VALUES(" + IssueID + ", '" + HS1 + "', '" + HS2 + "', '" + HS3 + "', '" + SS1 + "', '" + SS2 + "', '" + SS3 + "');");
+        // Inserts info into third DB
+        conn = DriverManager.getConnection(jdbcSprintUrl);
+        statement = conn.createStatement();
+        statement.executeUpdate("INSERT INTO sprintEval(id) VALUES(" + IssueID + ");");
     }
     public static void editInfo(int ID, String Name, int Age) throws SQLException {
         String jdbcUrl = "jdbc:sqlite:Employees.db";

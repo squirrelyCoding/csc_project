@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class MyFrame extends JFrame implements ActionListener{ // Implements the method "MyFrame" so it can be used in main.
 
     private String Depth = "EmpOptions";
+    private String PermLVL = "Employee";
     private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12;
     private JTextArea infoDisplay;
     private JTextField enterField1, enterField2, enterField3, enterField4, enterField5, enterField6;
@@ -173,21 +174,36 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             // viewButton.setVisible(false);
 
     }
+    // Getters
     public String getDepth() {
         return Depth;
     }
+    public String getPerm() {
+        return PermLVL;
+    }
+    // Setters
     public void setDepth(String Depth) {
         this.Depth = Depth;
+    }
+    public void setPerm(String PermLVL) {
+        this.PermLVL = PermLVL;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         String Layer = getDepth();
+        String Access = getPerm();
         String tempStr = "";
         String ErrorMSG = "";
-        // 1st Level layer
-        if (e.getSource() == saveEmpButton && Layer.equals("EmpOptions")) {
+        if (e.getSource() == saveEmpButton && Layer.equals("EmpOptions")) { // 1st layer
             setDepth("AddEmp");
-            } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
+        } else if (e.getSource() == viewEmpButton && Layer.equals("EmpOptions")) {
+            setDepth("ViewEmp");
+            try {
+                infoDisplay.setText(App.getInfo("Full"));
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) { // 2nd layer
                 //Verification Process
                 if ((enterField1.getText().equals("") || enterField2.getText().equals("") || enterField3.getText().equals("")
                 || enterField4.getText().equals("") || enterField5.getText().equals("") || enterField6.getText().equals("")
@@ -217,11 +233,14 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                         try {
                             tempStr = ("" + enterField1.getText() + " " + enterField2.getText()); 
                             // Saves data to the Database
-                            App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
-                            hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
-                            softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
-                            JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-
+                            if (App.empCount()) {
+                                App.saveInfo(tempStr, enterField3.getText(), enterField4.getText(), enterField5.getText(), enterField6.getText(),
+                                hardBox1.getSelectedItem().toString(), hardBox2.getSelectedItem().toString(), hardBox3.getSelectedItem().toString(),
+                                softBox1.getSelectedItem().toString(), softBox2.getSelectedItem().toString(), softBox3.getSelectedItem().toString());
+                                JOptionPane.showMessageDialog(this, "Employee data has been saved!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Uh-oh! There's no room to add an employee", "Database Full", JOptionPane.INFORMATION_MESSAGE);
+                            }
                             //clears the fields
                             enterField1.setText("");
                             enterField2.setText("");
@@ -238,7 +257,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
 
                             setDepth("EmpOptions");
                         } catch (SQLException e1) {
-                                e1.printStackTrace();
+                            e1.printStackTrace();
                         }
                     }
                 }
@@ -247,48 +266,17 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                 }
             } else if (e.getSource() == backButton && Layer.equals("AddEmp")) {
                 setDepth("EmpOptions");
-        } else if (e.getSource() == viewEmpButton && Layer.equals("EmpOptions")) {
-            setDepth("ViewEmp");
-            try {
-                infoDisplay.setText(App.getInfo("Full"));
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        } else if (e.getSource() == editButton && Layer.equals("ViewEmp")) {
-        } else if (e.getSource() == delButton && Layer.equals("ViewEmp")) {
-        } else if (e.getSource() == backButton && Layer.equals("ViewEmp")) {
+            } else if (e.getSource() == editButton && Layer.equals("ViewEmp")) {
+            } else if (e.getSource() == delButton && Layer.equals("ViewEmp")) {
+            } else if (e.getSource() == backButton && Layer.equals("ViewEmp")) {
             setDepth("EmpOptions");
-
-        //     saveButton.setVisible(false);
-        //     editButton.setVisible(false);
-        //     demButton.setVisible(false);
-        //     nameField.setVisible(false);
-        //     dateHiredField.setVisible(false);
-        //     skillsField.setVisible(false);
-
-        //     tempStr = demField.getText();
-        //     if (e.getSource() == demButton && tempStr.equals("")) { //First Open
-        //         JOptionPane.showMessageDialog(this, "Employee has no Demographic Data, please enter something to continue.", "ERROR", JOptionPane.INFORMATION_MESSAGE);
-        //         demField.setVisible(true);
-        //         demField.setEditable(true);
-        //         demSave.setVisible(true);
-        //     } else if (e.getSource() == demButton || e.getSource() == demSave) { //nth Open
-        //         demField.setEditable(false);
-        //         demSave.setVisible(false);
-        //         demField.setVisible(true);
-        //         demEdit.setVisible(true);
-        //     } else if (e.getSource() == demEdit) { //Edit Demographics
-        //         demEdit.setVisible(false);
-        //         demField.setEditable(true);
-        //         demSave.setVisible(true);
-        //     }
         }
 
         // Back-end of Layer change
         Layer = getDepth();
+        Access = getPerm();
 
-        // 1st Level Layer
-        if (Layer.equals("EmpOptions")) {
+        if (Layer.equals("EmpOptions")) { // 1st layer
             // On-Screen(Bounds)
             saveEmpButton.setBounds(140, 400, 200, 30);
             viewEmpButton.setBounds(140, 450, 200, 30);
@@ -329,81 +317,81 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             backButton.setVisible(false);
         
         // 2nd level Layers
-        } else if (Layer.equals("AddEmp")) {
-            // On-Screen(Bounds)
-            label1.setBounds(30, 20, 100, 30);
-            label2.setBounds(30, 50, 100, 30);
-            label3.setBounds(30, 80, 100, 30);
-            label4.setBounds(30, 110, 100, 30);
-            label5.setBounds(30, 140, 200, 30);
-            label6.setBounds(30, 170, 200, 30);
-            label7.setBounds(30, 200, 200, 30);
-            label8.setBounds(30, 230, 100, 30);
-            label9.setBounds(30, 260, 100, 30);
-            label10.setBounds(30, 290, 100, 30);
-            label11.setBounds(30, 320, 100, 30);
-            label12.setBounds(30, 350, 100, 30);
-            enterField1.setBounds(225, 24, 200, 25);
-            enterField2.setBounds(225, 54, 200, 25);
-            enterField3.setBounds(225, 84, 200, 25);
-            enterField4.setBounds(225, 114, 200, 25);
-            enterField5.setBounds(225, 144, 200, 25);
-            enterField6.setBounds(225, 174, 200, 25);
-            hardBox1.setBounds(225, 204, 200, 25);
-            hardBox2.setBounds(225, 234, 200, 25);
-            hardBox3.setBounds(225, 264, 200, 25);
-            softBox1.setBounds(225, 294, 200, 25);
-            softBox2.setBounds(225, 324, 200, 25);
-            softBox3.setBounds(225, 354, 200, 25);
-            saveButton.setBounds(100, 400, 280, 30);
-            backButton.setBounds(100, 450, 280, 30);
+            } else if (Layer.equals("AddEmp")) { // 2nd layer
+                // On-Screen(Bounds)
+                label1.setBounds(30, 20, 100, 30);
+                label2.setBounds(30, 50, 100, 30);
+                label3.setBounds(30, 80, 100, 30);
+                label4.setBounds(30, 110, 100, 30);
+                label5.setBounds(30, 140, 200, 30);
+                label6.setBounds(30, 170, 200, 30);
+                label7.setBounds(30, 200, 200, 30);
+                label8.setBounds(30, 230, 100, 30);
+                label9.setBounds(30, 260, 100, 30);
+                label10.setBounds(30, 290, 100, 30);
+                label11.setBounds(30, 320, 100, 30);
+                label12.setBounds(30, 350, 100, 30);
+                enterField1.setBounds(225, 24, 200, 25);
+                enterField2.setBounds(225, 54, 200, 25);
+                enterField3.setBounds(225, 84, 200, 25);
+                enterField4.setBounds(225, 114, 200, 25);
+                enterField5.setBounds(225, 144, 200, 25);
+                enterField6.setBounds(225, 174, 200, 25);
+                hardBox1.setBounds(225, 204, 200, 25);
+                hardBox2.setBounds(225, 234, 200, 25);
+                hardBox3.setBounds(225, 264, 200, 25);
+                softBox1.setBounds(225, 294, 200, 25);
+                softBox2.setBounds(225, 324, 200, 25);
+                softBox3.setBounds(225, 354, 200, 25);
+                saveButton.setBounds(100, 400, 280, 30);
+                backButton.setBounds(100, 450, 280, 30);
 
-            // On-Screen(Visiblity)
-            label1.setVisible(true);
-            label2.setVisible(true);
-            label3.setVisible(true);
-            label4.setVisible(true);
-            label5.setVisible(true);
-            label6.setVisible(true);
-            label7.setVisible(true);
-            label8.setVisible(true);
-            label9.setVisible(true);
-            label10.setVisible(true);
-            label11.setVisible(true);
-            label12.setVisible(true);
-            enterField1.setVisible(true);
-            enterField2.setVisible(true);
-            enterField3.setVisible(true);
-            enterField4.setVisible(true);
-            enterField5.setVisible(true);
-            enterField6.setVisible(true);
-            hardBox1.setVisible(true);
-            hardBox2.setVisible(true);
-            hardBox3.setVisible(true);
-            softBox1.setVisible(true);
-            softBox2.setVisible(true);
-            softBox3.setVisible(true);
-            saveButton.setVisible(true);
-            backButton.setVisible(true);
+                // On-Screen(Visiblity)
+                label1.setVisible(true);
+                label2.setVisible(true);
+                label3.setVisible(true);
+                label4.setVisible(true);
+                label5.setVisible(true);
+                label6.setVisible(true);
+                label7.setVisible(true);
+                label8.setVisible(true);
+                label9.setVisible(true);
+                label10.setVisible(true);
+                label11.setVisible(true);
+                label12.setVisible(true);
+                enterField1.setVisible(true);
+                enterField2.setVisible(true);
+                enterField3.setVisible(true);
+                enterField4.setVisible(true);
+                enterField5.setVisible(true);
+                enterField6.setVisible(true);
+                hardBox1.setVisible(true);
+                hardBox2.setVisible(true);
+                hardBox3.setVisible(true);
+                softBox1.setVisible(true);
+                softBox2.setVisible(true);
+                softBox3.setVisible(true);
+                saveButton.setVisible(true);
+                backButton.setVisible(true);
 
-            // Off-Screen
-            saveEmpButton.setVisible(false);
-            viewEmpButton.setVisible(false);
-        } else if (Layer.equals("ViewEmp")) {
-            // On-Screen(Bounds)
-            scroll.setBounds(20, 20, 440, 600);
-            editButton.setBounds(100, 630, 280, 30);
-            delButton.setBounds(100, 670, 280, 30);
-            backButton.setBounds(100, 710, 280, 30);
-            // On-Screen(Visibility)
-            scroll.setVisible(true);
-            editButton.setVisible(true);
-            delButton.setVisible(true);
-            backButton.setVisible(true);
+                // Off-Screen
+                saveEmpButton.setVisible(false);
+                viewEmpButton.setVisible(false);
+            } else if (Layer.equals("ViewEmp")) {
+                // On-Screen(Bounds)
+                scroll.setBounds(20, 20, 440, 600);
+                editButton.setBounds(100, 630, 280, 30);
+                delButton.setBounds(100, 670, 280, 30);
+                backButton.setBounds(100, 710, 280, 30);
+                // On-Screen(Visibility)
+                scroll.setVisible(true);
+                editButton.setVisible(true);
+                delButton.setVisible(true);
+                backButton.setVisible(true);
 
-            // Off-Screen
-            saveEmpButton.setVisible(false);
-            viewEmpButton.setVisible(false);
+                // Off-Screen
+                saveEmpButton.setVisible(false);
+                viewEmpButton.setVisible(false);
         }
     }
 }
