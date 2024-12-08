@@ -79,7 +79,7 @@ public class App {
 
             // Display specific DB data
             } else if (type.equals("ID")) {
-                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";\
+                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";
             } else if (type.equals("Name")) {
                 answer = answer + "Employee #" + count + " Name:" + Result1.getString("name") + "\n";
             } else if (type.equals("Age")) {
