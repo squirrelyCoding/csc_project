@@ -8,7 +8,7 @@ public class TitleFrame extends JFrame {
     TitleFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null); // Use null layout for absolute positioning
-        this.setSize(494, 800);
+        this.setSize(494, 600);
         this.getContentPane().setBackground(new Color(123, 164, 176)); //sets background color to the light blue
 
         // Set the title and managemnet logo
