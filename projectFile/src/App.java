@@ -184,6 +184,26 @@ public class App {
         statement.close();
         Result.close();
     }
+    // public static void editInfo(int ID, String Name, int Age) throws SQLException {
+    //     String jdbcUrl = "jdbc:sqlite:Employees.db";
+    //     Connection conn = DriverManager.getConnection(jdbcUrl);
+    //     Statement statement = conn.createStatement();
+    //     statement.executeUpdate("UPDATE employees SET name=" + Name + " WHERE id=" + ID);
+    //     statement.executeUpdate("UPDATE employees SET age=" + Age + " WHERE id=" + ID);
+    //     conn.close();
+    //     statement.close();
+    // }
+    // public static void deleteInfo(int ID) throws SQLException {
+    //     String jdbcUrl = "jdbc:sqlite:Employees.db";
+    //     Connection conn = DriverManager.getConnection(jdbcUrl);
+    //     Statement statement = conn.createStatement();
+    //     statement.executeUpdate("DELETE FROM employees WHERE id=" + ID);
+    //     conn.close();
+    //     statement.close();
+    // }
+    // public static void main(String[] args) throws Exception {
+    //     new TitleFrame();
+    // }
     public static void editInfo(int ID, String Name, int Age) throws SQLException {
         String jdbcUrl = "jdbc:sqlite:Employees.db";
         Connection conn = DriverManager.getConnection(jdbcUrl);
