@@ -37,6 +37,24 @@ public class App {
         Result.close();
         return Perm;
     }
+    public static String myInfo(int ID, String type) throws SQLException {
+        String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
+        String employeeStr = "SELECT * FROM employees";
+        Connection conn = DriverManager.getConnection(jdbcEmployeeUrl);
+        Statement statement = conn.createStatement();
+        ResultSet Result = statement.executeQuery(employeeStr);
+
+        String myInfo = "";
+        while(Result.next()) {
+            if (Result.getInt("id") == ID) {
+                myInfo = Result.getString(type);
+            }
+        }
+        conn.close();
+        statement.close();
+        Result.close();
+        return myInfo;
+    }
     public static String getInfo(String type) throws SQLException {
         String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
         String employeeStr = "SELECT * FROM employees";
@@ -79,7 +97,7 @@ public class App {
 
             // Display specific DB data
             } else if (type.equals("ID")) {
-                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";\
+                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";
             } else if (type.equals("Name")) {
                 answer = answer + "Employee #" + count + " Name:" + Result1.getString("name") + "\n";
             } else if (type.equals("Age")) {
