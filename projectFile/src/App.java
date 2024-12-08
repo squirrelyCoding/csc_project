@@ -79,15 +79,11 @@ public class App {
 
             // Display specific DB data
             } else if (type.equals("ID")) {
-                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";
-            } else if (type.equals("Access")) {
+                answer = answer + "Employee #" + count + " ID:"+ Result1.getString("id") + "\n";\
             } else if (type.equals("Name")) {
                 answer = answer + "Employee #" + count + " Name:" + Result1.getString("name") + "\n";
             } else if (type.equals("Age")) {
                 answer = answer + "Employee #" + count + " Age:" + Result1.getString("age") + "\n";
-            } else if (type.equals("Perm")) {
-                answer = answer + Result1.getString("accessLVL");
-
             // Search query based on a specified Variables
             } else if (type.contains("S")) {
                 search = type.replace("S", "");

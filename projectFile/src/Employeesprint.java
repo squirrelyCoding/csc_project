@@ -47,53 +47,106 @@ public class Employeesprint extends employee implements supervisor
 
 public class Employeesprint { 
 
-    private String memberinfo; 
-  
     private String[] feedback; 
-    public Employeesprint() throws SQLException
+    public String viewSprint(int ID) throws SQLException
     { 
-        String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
-        String employeeStr = "SELECT * FROM employees";
-        Connection conn1 = DriverManager.getConnection(jdbcEmployeeUrl);
+        // Setting up variables and such for SQL queries
+        String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
+        String EmpEXPStr = "SELECT * FROM empExp";
+        Connection conn1 = DriverManager.getConnection(jdbcEmpEXPUrl);
         Statement statement1 = conn1.createStatement();
-        ResultSet Result1 = statement1.executeQuery(employeeStr);
+        ResultSet Result1 = statement1.executeQuery(EmpEXPStr);
 
         String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
-        String empEXPStr = "SELECT * FROM sprintEval";
+        String SprintEvalStr = "SELECT * FROM sprintEval";
         Connection conn2 = DriverManager.getConnection(jdbcSprintEvalURL);
         Statement statement2 = conn2.createStatement();
-        ResultSet Result2 = statement2.executeQuery(empEXPStr);
+        ResultSet Result2 = statement2.executeQuery(SprintEvalStr);
+
+        int count = 0;
+        int n;
+
+        String Sprint = "";
         
+            while (Result1.next()) {
+                if (Result1.getInt("id") == ID) {
+                    count = Result1.getInt("sprintCount");
+                }
+            }
+
+            // Keep run-time high
+            conn1.close();
+            statement1.close();
+            Result1.close();
+
+            while (Result2.next()) {
+                if (Result2.getInt("id") == ID) {
+                    for (n = 1; count >= n; n++) {
+                        Sprint = Sprint + Result2.getString("Sprint " + n) + "\n\n";
+                    }
+                }
+            }
+        return Sprint;
     }
-    
     public void addSprint(String sprint, int ID) throws SQLException
     {
-        String jdbcEmpEXPURL = "jdbc:sqlite:EmpEXP.db";
-        String empEXPStr = "SELECT * FROM empEXP";
-        Connection conn1 = DriverManager.getConnection(jdbcEmpEXPURL);
+        // Setting up variables and such for SQL queries
+        String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
+        String EmpEXPStr = "SELECT * FROM empExp";
+        Connection conn1 = DriverManager.getConnection(jdbcEmpEXPUrl);
         Statement statement1 = conn1.createStatement();
-        ResultSet Result1 = statement1.executeQuery(empEXPStr);
+        ResultSet Result1 = statement1.executeQuery(EmpEXPStr);
 
         String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
-        String SprintESTR = "SELECT * FROM sprintEval";
+        String SprintEStr = "SELECT * FROM sprintEval";
         Connection conn2 = DriverManager.getConnection(jdbcSprintEvalURL);
         Statement statement2 = conn2.createStatement();
-        ResultSet Result2 = statement2.executeQuery(SprintESTR);
+        ResultSet Result2 = statement2.executeQuery(SprintEStr);
         ResultSetMetaData RSMD = Result2.getMetaData();
         int ColumnCount = RSMD.getColumnCount();
 
-        int sprintCount;
+        // Keeps run-time high
+        Result2.close();
 
-        while (Result1.next())
-        {
-            if (Result1.getString("id").equals(ID))
-            {
+        int sprintCount = 0;
+        String query = ("ALTER TABLE sprintEval ADD Sprint " + ColumnCount + " TEXT DEFAULT 'NULL'");
+        // Add's a new Collumn if it's needed in SprintEval.db
+        while (Result1.next()) {
+            if (Result1.getInt("id") == ID) {
                 sprintCount = Result1.getInt("sprintCount");
             }
+            if (sprintCount == (ColumnCount - 1)) {
+                statement2.executeUpdate(query);
+            }
         }
-        // if(ColumnCount) {}
-     
+
+        // Keeps run-time high
+        conn1.close();
+        statement1.close();
+        Result1.close();
+
+        // Add's the new sprint into SprintEval.db
+        statement2.executeUpdate("UPDATE employees SET " + (sprintCount + 1) + "=" + sprint + "WHERE id=" + ID);
+        
+        // Keeps run-time high
+        conn2.close();
+        statement2.close();
     }
+    public void editSprint() throws SQLException
+    {
+        // Setting up variables and such for SQL queries
+        String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
+        Connection conn = DriverManager.getConnection(jdbcSprintEvalURL);
+        Statement statement = conn.createStatement();   
+    }
+    public void deleteSprint() throws SQLException
+    {
+        // Setting up variables and such for SQL queries
+        String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
+        Connection conn = DriverManager.getConnection(jdbcSprintEvalURL);
+        Statement statement = conn.createStatement(); 
+    }
+
    
 
     public void addFeedback(int size) 
@@ -120,9 +173,5 @@ public class Employeesprint {
      { 
         System.out.println("Feedback:\n" + getFeedback()); 
      }  
-     public static void main(String[] args) 
-     {
-        
-     }
     }
 
