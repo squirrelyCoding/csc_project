@@ -16,11 +16,11 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private JButton saveButton, viewButton, editButton, delButton, backButton, myInfoButton, searchButton, saveEmpButton, viewEmpButton, viewSprButton, addSprButton, editSprButton, delSprButton;
     private JScrollPane scroll;
 
-    MyFrame() {
+    MyFrame(int id) {
         String Access = "";
-        int ID = getID();
+        setID(id);
         try {
-        Access = App.getPerms(ID);
+        Access = App.getPerms(id);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -263,7 +263,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             } else if (e.getSource() == backButton && Layer.equals("MyInfo")) {
                 setDepth("EmpOptions");
             } else if (e.getSource() == searchButton && Layer.equals("ViewEmp")) {
+                JOptionPane.showMessageDialog(this, "Employee search option not implemented", "Uh-oh!", JOptionPane.INFORMATION_MESSAGE);
             } else if (e.getSource() == editButton && Layer.equals("ViewEmp")) {
+                JOptionPane.showMessageDialog(this, "Employee edit option not implemented", "Uh-oh!", JOptionPane.INFORMATION_MESSAGE);
             } else if (e.getSource() == backButton && Layer.equals("ViewEmp")) {
                 setDepth("EmpOptions");
             } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
