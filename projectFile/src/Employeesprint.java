@@ -48,7 +48,7 @@ public class Employeesprint extends employee implements supervisor
 public class Employeesprint { 
 
     private String[] feedback; 
-    public String viewSprint(int ID) throws SQLException
+    public static String viewSprint(int ID, String type) throws SQLException
     { 
         // Setting up variables and such for SQL queries
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
@@ -67,28 +67,39 @@ public class Employeesprint {
         int n;
 
         String Sprint = "";
+        String bLine = "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=";
         
-            while (Result1.next()) {
-                if (Result1.getInt("id") == ID) {
-                    count = Result1.getInt("sprintCount");
-                }
+        while (Result1.next()) {
+            if (Result1.getInt("id") == ID) {
+                count = Result1.getInt("sprintCount");
             }
+        }
 
-            // Keep run-time high
-            conn1.close();
-            statement1.close();
-            Result1.close();
+        // Keep run-time high
+        conn1.close();
+        statement1.close();
+        Result1.close();
 
-            while (Result2.next()) {
-                if (Result2.getInt("id") == ID) {
+        while (Result2.next()) {
+            if (Result2.getInt("id") == ID) {
+                if (type.equals("Full")) {
                     for (n = 1; count >= n; n++) {
-                        Sprint = Sprint + Result2.getString("Sprint " + n) + "\n\n";
+                        Sprint = Sprint + Result2.getString("Sprint" + n) + "\n\n" + bLine + "\n\n";
                     }
+                } else {
+                    Sprint = Result2.getString(type);
                 }
             }
+        }
+
+        // Keep run-time high
+        conn2.close();
+        statement2.close();
+        Result2.close();
+
         return Sprint;
     }
-    public void addSprint(String sprint, int ID) throws SQLException
+    public static void addSprint(String sprint, int ID) throws SQLException
     {
         // Setting up variables and such for SQL queries
         String jdbcEmpEXPUrl = "jdbc:sqlite:EmpEXP.db";
@@ -109,16 +120,17 @@ public class Employeesprint {
         Result2.close();
 
         int sprintCount = 0;
-        String query = ("ALTER TABLE sprintEval ADD Sprint " + ColumnCount + " TEXT DEFAULT 'NULL'");
+        String query = ("ALTER TABLE sprintEval ADD COLUMN Sprint" + ColumnCount + " TEXT DEFAULT 'NULL'");
         // Add's a new Collumn if it's needed in SprintEval.db
         while (Result1.next()) {
             if (Result1.getInt("id") == ID) {
                 sprintCount = Result1.getInt("sprintCount");
             }
-            if (sprintCount == (ColumnCount - 1)) {
-                statement2.executeUpdate(query);
-            }
         }
+        if (sprintCount == (ColumnCount - 1)) {
+            statement2.executeUpdate(query);
+        }
+        statement1.executeUpdate("UPDATE empEXP SET sprintCount=" + (sprintCount + 1) + " WHERE id=" + ID);
 
         // Keeps run-time high
         conn1.close();
@@ -126,25 +138,32 @@ public class Employeesprint {
         Result1.close();
 
         // Add's the new sprint into SprintEval.db
-        statement2.executeUpdate("UPDATE employees SET " + (sprintCount + 1) + "=" + sprint + "WHERE id=" + ID);
+        statement2.executeUpdate("UPDATE sprintEval SET Sprint" + (sprintCount + 1) + "= '" + sprint + "' WHERE id=" + ID);
         
         // Keeps run-time high
         conn2.close();
         statement2.close();
     }
-    public void editSprint() throws SQLException
+    public static void editSprint(int ID, String sprNum, String sprint) throws SQLException
     {
         // Setting up variables and such for SQL queries
         String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
         Connection conn = DriverManager.getConnection(jdbcSprintEvalURL);
-        Statement statement = conn.createStatement();   
+        Statement statement = conn.createStatement();
+        statement.executeUpdate("UPDATE sprintEval SET " + sprNum + "= '" + sprint + "' WHERE id=" + ID);
+        statement.close();
+        conn.close();
     }
-    public void deleteSprint() throws SQLException
+    public static void deleteSprint(int ID, String Spr) throws SQLException
     {
         // Setting up variables and such for SQL queries
         String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
         Connection conn = DriverManager.getConnection(jdbcSprintEvalURL);
-        Statement statement = conn.createStatement(); 
+        Statement statement = conn.createStatement();
+        
+        statement.executeUpdate("UPDATE sprintEval SET " + Spr + "= 'NULL' WHERE id=" + ID);
+        conn.close();
+        statement.close();
     }
 
    
