@@ -58,35 +58,31 @@ public class loginFrame extends JFrame{
         this.add(signUpButton);
         
 
-        if (userInput.getText().equals("manager") && passwordInput.getText().equals("password")){
-            loginButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = userInput.getText();
+                String password = passwordInput.getText();
+
+                if (username.equals("manager") && password.equals("superPassword")) {
                     JOptionPane.showMessageDialog(null, "Login Successful!");
-            
-                    /*loginFrame frame = new loginFrame();
+                    MyFrame frame = new MyFrame();
                     frame.setVisible(true);
-                    dispose(); // Close the current frame */
+                    // Close the current frame
+                    dispose(); 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.");
                 }
-            });
-            JOptionPane.showMessageDialog(null, "Login Successful!");
-        }
-        
-        // //Creates manager button
-        // managerButton = new JButton("Manager");
+            }
+        });
 
-        //  // Set position and size (x, y, width, height)
-        // managerButton.setBounds(150, 350, 200, 30);
-        // managerButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         MyFrame frame = new MyFrame();
-        //         frame.setVisible(true);
-        //         dispose(); // Close the current frame
-        //     }
-        // });
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
-        // this.add(managerButton);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
