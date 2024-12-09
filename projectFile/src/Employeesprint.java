@@ -44,27 +44,9 @@ public class Employeesprint extends employee implements supervisor
     ok this my updated code /and below is v 2.0 
 */
 
-
-public class Employeesprint { 
-
-    private String memberinfo; 
-  
     private String[] feedback; 
-    public Employeesprint() throws SQLException
-    { 
-        String jdbcEmployeeUrl = "jdbc:sqlite:Employees.db";
-        String employeeStr = "SELECT * FROM employees";
-        Connection conn1 = DriverManager.getConnection(jdbcEmployeeUrl);
-        Statement statement1 = conn1.createStatement();
-        ResultSet Result1 = statement1.executeQuery(employeeStr);
+   
 
-        String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
-        String empEXPStr = "SELECT * FROM sprintEval";
-        Connection conn2 = DriverManager.getConnection(jdbcSprintEvalURL);
-        Statement statement2 = conn2.createStatement();
-        ResultSet Result2 = statement2.executeQuery(empEXPStr);
-        
-    }
     
     public void addSprint(String sprint, int ID) throws SQLException
     {
@@ -94,7 +76,30 @@ public class Employeesprint {
         // if(ColumnCount) {}
      
     }
-   
+
+   public void delSprint(String sprint, int ID) throws SQLException
+   {
+    String jdbcEmpEXPURL = "jdbc:sqlite:EmpEXP.db";
+    String empEXPStr = "SELECT * FROM empEXP";
+    Connection conn1 = DriverManager.getConnection(jdbcEmpEXPURL);
+    Statement statement1 = conn1.createStatement();
+    ResultSet Result1 = statement1.executeQuery(empEXPStr);
+
+    String jdbcSprintEvalURL = "jdbc:sqlite:SprintEval.db";
+    String SprintESTR = "SELECT * FROM sprintEval";
+    Connection conn2 = DriverManager.getConnection(jdbcSprintEvalURL);
+    Statement statement2 = conn2.createStatement();
+    ResultSet Result2 = statement2.executeQuery(SprintESTR);
+    ResultSetMetaData RSMD = Result2.getMetaData();
+    int ColumnCount = RSMD.getColumnCount();
+
+   }
+
+   public void delSprint() 
+   { 
+      String [] feedback = null; 
+       // Set the feedback array to null to delete all feedback System.out.println("All feedback has been deleted."); 
+   }
 
     public void addFeedback(int size) 
      { 
@@ -108,7 +113,7 @@ public class Employeesprint {
      { 
         System.out.println("their is no feedback"); 
         return null; 
-    } 
+     } 
     StringBuilder feedbackSummary = new StringBuilder(); 
     for (String fb : feedback) 
     { 
@@ -118,11 +123,12 @@ public class Employeesprint {
     } 
      public void viewData() 
      { 
+     
         System.out.println("Feedback:\n" + getFeedback()); 
      }  
      public static void main(String[] args) 
      {
         
      }
-    }
+    
 
