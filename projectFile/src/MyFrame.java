@@ -263,7 +263,9 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             } else if (e.getSource() == backButton && Layer.equals("MyInfo")) {
                 setDepth("EmpOptions");
             } else if (e.getSource() == searchButton && Layer.equals("ViewEmp")) {
+                JOptionPane.showMessageDialog(this, "Employee search option not implemented", "Uh-oh!", JOptionPane.INFORMATION_MESSAGE);
             } else if (e.getSource() == editButton && Layer.equals("ViewEmp")) {
+                JOptionPane.showMessageDialog(this, "Employee edit option not implemented", "Uh-oh!", JOptionPane.INFORMATION_MESSAGE);
             } else if (e.getSource() == backButton && Layer.equals("ViewEmp")) {
                 setDepth("EmpOptions");
             } else if (e.getSource() == saveButton && Layer.equals("AddEmp")) {
