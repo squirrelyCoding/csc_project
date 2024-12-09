@@ -10,7 +10,7 @@ public class App {
         Statement statement = conn.createStatement();
         ResultSet Result = statement.executeQuery(rowCount);
         Result.next();
-        if (Result.getInt(1) > 10) {
+        if (Result.getInt(1) > 9999) {
             answer = false;
         } else {
             answer = true;
@@ -157,11 +157,11 @@ public class App {
         Connection conn = DriverManager.getConnection(jdbcEmployeeUrl);
         Statement statement = conn.createStatement();
         Random rand = new Random();
-        int IssueID = 1 + rand.nextInt(10);
+        int IssueID = 1 + rand.nextInt(9999);
         ResultSet Result = statement.executeQuery(employeeStr);
         while (Result.next()) {
             while (Result.getInt("id") == IssueID) {
-                IssueID = 1 + rand.nextInt(10);
+                IssueID = 1 + rand.nextInt(9999);
                 Result = statement.executeQuery(employeeStr);
             }
         }
@@ -202,7 +202,6 @@ public class App {
         statement.close();
     }
     public static void main(String[] args) throws Exception {
-        //new TitleFrame();
         new loginFrame();
     }
 }
