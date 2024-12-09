@@ -202,6 +202,7 @@ public class App {
         statement.close();
     }
     public static void main(String[] args) throws Exception {
-        new TitleFrame();
+        //new TitleFrame();
+        new loginFrame();
     }
 }
