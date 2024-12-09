@@ -66,7 +66,7 @@ public class Employeesprint {
         int count = 0;
         int n;
         int i;
-        int num = 1;
+        int num;
         boolean query = true;
         String tempStr = "";
         String sprNum = "1st";
@@ -93,19 +93,20 @@ public class Employeesprint {
                     for (n = 1; count >= n; n++) {
                         tempStr = Result2.getString("Sprint" + n);
                         i = 1;
+                        num = 1;
                         sprNum = "1st";
                         while (!sprNum.equals("Done")) {
                             if ((tempStr.charAt(i) == '|') && (sprNum.equals("1st"))) {
-                                Sprint = Sprint + "Date: " + tempStr.substring(num, (i - 1)) + sLine;
-                                num = (i + 1);
+                                Sprint = Sprint + "Date: " + tempStr.substring(num, i) + sLine;
+                                num = i + 1;
                                 sprNum = "2nd";
                             } else if ((tempStr.charAt(i) == '|') && sprNum.equals("2nd")) {
-                                Sprint = Sprint + "Tasks complete: " + tempStr.substring(num, (i - 1)) + sLine;
-                                num = (i + 1);
+                                Sprint = Sprint + "Tasks complete: " + tempStr.substring(num, i) + sLine;
+                                num = i + 1;
                                 sprNum = "3rd";
                             } else if ((tempStr.charAt(i) == '|') && sprNum.equals("3rd")) {
-                                Sprint = Sprint + "Tasks left: " + tempStr.substring(num, (i - 1)) + sLine;
-                                num = (i + 1);
+                                Sprint = Sprint + "Tasks left: " + tempStr.substring(num, i) + sLine;
+                                num = i + 1;
                                 sprNum = "Done";
                             }
                             i++;
