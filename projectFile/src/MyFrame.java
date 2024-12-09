@@ -228,6 +228,11 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
         int ID = getID();
         String tempStr = "";
         String ErrorMSG = "";
+        String check = "1st";
+        String sLine = "";
+        int i = 1;
+        int n = 1;
+        char c;
         if (e.getSource() == myInfoButton && Layer.equals("EmpOptions")) { // 1st layer
             setDepth("MyInfo");
             try {
@@ -250,7 +255,11 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
             }
             } else if (e.getSource() == viewSprButton && Layer.equals("MyInfo")) { // 2nd layer
                 setDepth("MySpr");
-                infoDisplay.setText("");
+                    try {
+                        infoDisplay.setText(Employeesprint.viewSprint(ID, "Full"));
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
             } else if (e.getSource() == backButton && Layer.equals("MyInfo")) {
                 setDepth("EmpOptions");
             } else if (e.getSource() == searchButton && Layer.equals("ViewEmp")) {
@@ -350,21 +359,65 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                             e1.printStackTrace();
                         }
                     } else if (e.getSource() == saveButton && Layer.equals("AddSpr")) { // 4th layer
-                        //TODO implement AddSpr method
-                        setDepth("ViewSpr");
+                        // Add verification to Date, to make sure it's a "Date" type in ver.Verify
+                        tempStr = ("" + enterArea1.getText().toString() + "|" + enterArea2.getText().toString()
+                        + "|" + enterArea3.getText().toString() + "|" + enterArea4.getText().toString());
+                        try {
+                            Employeesprint.addSprint(tempStr, ID);
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
+                        setDepth("MySpr");
                     } else if (e.getSource() == backButton && Layer.equals("AddSpr")) {
                         setDepth("MySpr");
                     } else if (e.getSource() == searchButton && Layer.equals("EditSpr")) {
-                        setDepth("ViewEdSpr");
+                        if (!ver.numCheck(enterField1.getText().toString())) {
+                            try {
+                                tempStr = Employeesprint.viewSprint(ID, "Sprint" + enterField1.getText().toString());
+                                while (!check.equals("done")) {
+                                    c = tempStr.charAt(i);
+                                    if ((c == '|') && check.equals("1st")) {
+                                        enterArea1.setText(tempStr.substring(n, (i - 1)));
+                                        check = "2nd";
+                                        n = (i + 1);
+                                    } else if ((c == '|') && check.equals("2nd")) {
+                                        enterArea2.setText(tempStr.substring(n, (i - 1)));
+                                        check = "3rd";
+                                        n = (i + 1);
+                                    } else if (c == '|') {
+                                        enterArea3.setText(tempStr.substring(n, (i - 1)));
+                                        check = "done";
+                                        n = (i + 1);
+                                    }
+                                    i++;
+                                }
+                                enterArea4.setText(tempStr.substring(n, tempStr.length()));
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                            setDepth("ViewEdSpr");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Uh-oh! Enter a number only", "Numbers only", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     } else if (e.getSource() == backButton && Layer.equals("EditSpr")) {
                         setDepth("MySpr");
                     } else if (e.getSource() == delButton && Layer.equals("DelSpr")) {
-                        //TODO implement DelSpr method
-                        setDepth("ViewSpr");
+                        try {
+                            Employeesprint.deleteSprint(ID, ("Sprint" + enterField1.getText().toString()));
+                            setDepth("ViewSpr");
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
                     } else if (e.getSource() == backButton && Layer.equals("DelSpr")) {
                         setDepth("MySpr");
                         } else if (e.getSource() == saveButton && Layer.equals("ViewEdSpr")) { // 5th layer
-                            //TODO implement EditSpr
+                            try {
+                                tempStr = ("" + enterArea1.getText().toString() + "|" + enterArea2.getText().toString()
+                                + "|" + enterArea3.getText().toString() + "|" + enterArea4.getText().toString());
+                                Employeesprint.editSprint(ID, ("Sprint" + enterField1.getText().toString()), tempStr);
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
                             setDepth("EditSpr");
                         } else if (e.getSource() == backButton && Layer.equals("ViewEdSpr")) {
                             setDepth("EditSpr");
@@ -651,6 +704,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                         searchButton.setVisible(true);
                         backButton.setVisible(true);
                         scroll.setVisible(true);
+                        enterField1.setEditable(true);
 
                         // Off-Screen
                         label17.setVisible(false);
@@ -669,6 +723,8 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                         enterArea2.setText("");
                         enterArea3.setText("");
                         enterArea4.setText("");
+                        enterField1.setText("");
+                        enterField1.setEditable(true);
                     } else if (Layer.equals("DelSpr")) {
                         label21.setBounds(190, 400, 100, 20);
                         enterField1.setBounds(284, 400, 20, 20);
@@ -693,6 +749,7 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                             enterArea2.setBounds(135, 45, 300, 120);
                             enterArea3.setBounds(135, 175, 300, 120);
                             enterArea4.setBounds(135, 305, 300, 120);
+                            enterField1.setBounds(100, 450, 25, 30);
                             saveButton.setBounds(147, 450, 200, 30);
                             // On-Screen(Visibility)
                             label17.setVisible(true);
@@ -703,12 +760,13 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
                             enterArea2.setVisible(true);
                             enterArea3.setVisible(true);
                             enterArea4.setVisible(true);
+                            enterField1.setVisible(true);
                             saveButton.setVisible(true);
                             backButton.setVisible(true);
+                            enterField1.setEditable(false);
                             
                             // Off-Screen 
                             label21.setVisible(false);
-                            enterField1.setVisible(false);
                             searchButton.setVisible(false);
                             scroll.setVisible(false);
         }
