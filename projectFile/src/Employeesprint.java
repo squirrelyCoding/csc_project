@@ -65,9 +65,16 @@ public class Employeesprint {
 
         int count = 0;
         int n;
+        int i;
+        int num = 1;
+        boolean query = true;
+        String tempStr = "";
+        String sprNum = "1st";
 
-        String Sprint = "";
-        String bLine = "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=";
+        String Sprint = "\n\n";
+        String sLine = "\n\n-----------------------------------------------------------------------------------------------" 
+        + "-------------------------------------------------------------------------------\n\n";
+        String bLine = "\n\n=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=";
         
         while (Result1.next()) {
             if (Result1.getInt("id") == ID) {
@@ -84,7 +91,26 @@ public class Employeesprint {
             if (Result2.getInt("id") == ID) {
                 if (type.equals("Full")) {
                     for (n = 1; count >= n; n++) {
-                        Sprint = Sprint + Result2.getString("Sprint" + n) + "\n\n" + bLine + "\n\n";
+                        tempStr = Result2.getString("Sprint" + n);
+                        i = 1;
+                        sprNum = "1st";
+                        while (!sprNum.equals("Done")) {
+                            if ((tempStr.charAt(i) == '|') && (sprNum.equals("1st"))) {
+                                Sprint = Sprint + "Date: " + tempStr.substring(num, (i - 1)) + sLine;
+                                num = (i + 1);
+                                sprNum = "2nd";
+                            } else if ((tempStr.charAt(i) == '|') && sprNum.equals("2nd")) {
+                                Sprint = Sprint + "Tasks complete: " + tempStr.substring(num, (i - 1)) + sLine;
+                                num = (i + 1);
+                                sprNum = "3rd";
+                            } else if ((tempStr.charAt(i) == '|') && sprNum.equals("3rd")) {
+                                Sprint = Sprint + "Tasks left: " + tempStr.substring(num, (i - 1)) + sLine;
+                                num = (i + 1);
+                                sprNum = "Done";
+                            }
+                            i++;
+                        }
+                        Sprint = Sprint + "Goals next sprint: " + (tempStr.substring(num, tempStr.length()) + bLine);
                     }
                 } else {
                     Sprint = Result2.getString(type);
