@@ -201,6 +201,22 @@ public class App {
         conn.close();
         statement.close();
     }
+    public static int loginCheck(String user, String pass) throws SQLException {
+        //Establishes connection to DB
+        String jdbcUrl = "jdbc:sqlite:Employees.db";
+        String employeeStr = "SELECT * FROM employees";
+        Connection conn = DriverManager.getConnection(jdbcUrl);
+        Statement statement = conn.createStatement();
+        ResultSet Result = statement.executeQuery(employeeStr);
+
+        int id = 0;
+        while (Result.next()) {
+            if ((Result.getString("name").equals(user)) && Result.getString("email").equals(pass)) {
+                id = Result.getInt("id");
+            }
+        }
+        return id;
+    }
     public static void main(String[] args) throws Exception {
         new loginFrame();
     }

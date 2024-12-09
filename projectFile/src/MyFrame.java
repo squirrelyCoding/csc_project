@@ -16,11 +16,11 @@ public class MyFrame extends JFrame implements ActionListener{ // Implements the
     private JButton saveButton, viewButton, editButton, delButton, backButton, myInfoButton, searchButton, saveEmpButton, viewEmpButton, viewSprButton, addSprButton, editSprButton, delSprButton;
     private JScrollPane scroll;
 
-    MyFrame() {
+    MyFrame(int id) {
         String Access = "";
-        int ID = getID();
+        setID(id);
         try {
-        Access = App.getPerms(ID);
+        Access = App.getPerms(id);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.sql.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +11,7 @@ public class loginFrame extends JFrame{
     private JButton loginButton, signUpButton;
 
     loginFrame(){
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setSize(494, 600);
@@ -63,10 +65,16 @@ public class loginFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String username = userInput.getText();
                 String password = passwordInput.getText();
+                int id = 0;
+                try {
+                    id = App.loginCheck(username, password);
+                } catch (SQLException e1) {
+                    e1.getStackTrace();
+                }
 
-                if (username.equals("manager") && password.equals("superPassword")) {
+                if (id != 0) {
                     JOptionPane.showMessageDialog(null, "Login Successful!");
-                    MyFrame frame = new MyFrame();
+                    MyFrame frame = new MyFrame(id);
                     frame.setVisible(true);
                     // Close the current frame
                     dispose(); 
